@@ -5,7 +5,7 @@
       <h2>Quản lý mượn sách</h2>
     </div>
 
-    <!-- Phần tìm kiếm -->
+    <!-- Phần tìm kiếm. -->
     <div class="row mb-4">
       <div class="col-md-6">
         <div class="input-group">

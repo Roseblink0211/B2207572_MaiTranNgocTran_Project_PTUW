@@ -8,7 +8,7 @@
         </div>
       </div>
 
-      <!-- Form đăng ký -->
+      <!-- Form đăng ký. -->
       <div class="register-right">
         <LoadingSpinner :show="loading" />
 

@@ -6,7 +6,7 @@
       <h2>Quản lý độc giả</h2>
     </div>
 
-    <!-- Error Alert. -->
+    <!-- Error Alert -->
     <div
       v-if="error"
       class="alert alert-danger alert-dismissible fade show"

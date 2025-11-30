@@ -9,7 +9,7 @@
         Thêm tác giả
       </button>
     </div>
-    <!-- Error Alert. -->
+    <!-- Error Alert -->
     <div
       v-if="error"
       class="alert alert-danger alert-dismissible fade show"

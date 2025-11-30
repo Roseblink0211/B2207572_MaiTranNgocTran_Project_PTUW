@@ -1,24 +1,31 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const NhanVien = require('../models/NhanVien');
-const DocGia = require('../models/DocGia');
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const NhanVien = require("../models/NhanVien");
+const DocGia = require("../models/DocGia");
 
-// Đăng nhập nhân viên
+// Đăng nhập nhân viên.
 const loginStaff = async (req, res) => {
   try {
     const { MSNV, password } = req.body;
     const nhanvien = await NhanVien.findOne({ MSNV });
 
     if (!nhanvien) {
-      return res.status(400).send({ error: 'Thông tin đăng nhập không hợp lệ' });
+      return res
+        .status(400)
+        .send({ error: "Thông tin đăng nhập không hợp lệ" });
     }
 
     const isMatch = await bcrypt.compare(password, nhanvien.password);
     if (!isMatch) {
-      return res.status(400).send({ error: 'Thông tin đăng nhập không hợp lệ' });
+      return res
+        .status(400)
+        .send({ error: "Thông tin đăng nhập không hợp lệ" });
     }
 
-    const token = jwt.sign({ _id: nhanvien._id.toString() }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { _id: nhanvien._id.toString() },
+      process.env.JWT_SECRET
+    );
     res.send({ nhanvien, token });
 
     console.log(`Đăng nhập thành công: ${nhanvien.MSNV}`);
@@ -34,15 +41,22 @@ const loginReader = async (req, res) => {
     const docgia = await DocGia.findOne({ email });
 
     if (!docgia) {
-      return res.status(400).send({ error: 'Thông tin đăng nhập không hợp lệ' });
+      return res
+        .status(400)
+        .send({ error: "Thông tin đăng nhập không hợp lệ" });
     }
 
     const isMatch = await bcrypt.compare(password, docgia.password);
     if (!isMatch) {
-      return res.status(400).send({ error: 'Thông tin đăng nhập không hợp lệ' });
+      return res
+        .status(400)
+        .send({ error: "Thông tin đăng nhập không hợp lệ" });
     }
 
-    const token = jwt.sign({ _id: docgia._id.toString() }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { _id: docgia._id.toString() },
+      process.env.JWT_SECRET
+    );
     res.send({ docgia, token });
   } catch (error) {
     res.status(400).send(error);
@@ -56,7 +70,10 @@ const registerReader = async (req, res) => {
     docgia.password = await bcrypt.hash(docgia.password, 8);
     await docgia.save();
 
-    const token = jwt.sign({ _id: docgia._id.toString() }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { _id: docgia._id.toString() },
+      process.env.JWT_SECRET
+    );
     res.status(201).send({ docgia, token });
   } catch (error) {
     res.status(400).send(error);
@@ -66,5 +83,5 @@ const registerReader = async (req, res) => {
 module.exports = {
   loginStaff,
   loginReader,
-  registerReader
+  registerReader,
 };

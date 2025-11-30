@@ -1,7 +1,7 @@
 <template>
   <div class="login-background">
     <div class="login-box">
-      <!-- Hình ảnh -->
+      <!-- Hình ảnh. -->
       <div class="login-left">
         <div class="image-wrapper">
           <img src="../../assets/Library-amico.png" class="login-image" />

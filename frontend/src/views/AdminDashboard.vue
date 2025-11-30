@@ -1,4 +1,4 @@
-<emplate>
+<template>
   <div class="admin-dashboard">
     <nav class="navbar navbar-expand-lg custom-navbar">
       <div class="container">

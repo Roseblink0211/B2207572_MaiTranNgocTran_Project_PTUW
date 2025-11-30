@@ -11,7 +11,7 @@
             Mỗi cuốn sách là một thế giới đang chờ bạn khám phá
           </p>
 
-          <!-- Thống kê -->
+          <!-- Thống kê. -->
           <div class="row mb-5">
             <div class="col-md-3">
               <div class="card mb-3 stat-card">

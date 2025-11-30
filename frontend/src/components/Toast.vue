@@ -1,6 +1,6 @@
 <template>
   <div class="toast-container position-fixed top-0 end-0 p-3">
-    <!-- Duyệt qua mảng toasts để hiển thị từng thông báo -->
+    <!-- .Duyệt qua mảng toasts để hiển thị từng thông báo -->
     <div
       v-for="toast in toasts"
       :key="toast.id"

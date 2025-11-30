@@ -1,5 +1,5 @@
 <template>
-  <!-- Khi prop `show` là true thì hiển thị lớp overlay và spinner -->
+  <!-- .Khi prop `show` là true thì hiển thị lớp overlay và spinner -->
   <div class="loading-overlay" v-if="show">
     <div class="spinner-border text-primary" role="status">
       <!-- Đọc bằng trình đọc màn hình -->

@@ -4,7 +4,7 @@
 
     <h2>Lịch sử mượn sách</h2>
 
-    <!-- Error Alert -->
+    <!-- Error Alert. -->
     <div
       v-if="error"
       class="alert alert-danger alert-dismissible fade show"

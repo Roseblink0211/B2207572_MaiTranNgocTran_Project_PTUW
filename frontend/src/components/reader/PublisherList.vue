@@ -13,7 +13,7 @@
       <button type="button" class="btn-close" @click="clearError"></button>
     </div>
 
-    <!-- Tìm kiếm -->
+    <!-- Tìm kiếm. -->
     <div class="row mb-4">
       <div class="col-md-6">
         <div class="input-group">

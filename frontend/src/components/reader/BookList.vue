@@ -13,7 +13,7 @@
       <button type="button" class="btn-close" @click="clearError"></button>
     </div>
 
-    <!-- Confirmation Modal -->
+    <!-- Confirmation Modal. -->
     <div class="modal" tabindex="-1" :class="{ 'd-block': showConfirmModal }">
       <div class="modal-dialog">
         <div class="modal-content">

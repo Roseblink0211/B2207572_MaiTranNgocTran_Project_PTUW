@@ -4,7 +4,7 @@
 
     <h2>Danh sách tác giả</h2>
 
-    <!-- Error Alert -->
+    <!-- Error Alert. -->
     <div
       v-if="error"
       class="alert alert-danger alert-dismissible fade show"

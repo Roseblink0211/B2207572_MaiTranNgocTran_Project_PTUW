@@ -1,21 +1,21 @@
-import { createApp } from 'vue';
+import { createApp } from "vue";
 
-// Import component gốc của ứng dụng
-import App from './App.vue';
+// .Import component gốc của ứng dụng
+import App from "./App.vue";
 
 // Import router để điều hướng giữa các trang
-import router from './router';
+import router from "./router";
 
 // Import Vuex store để quản lý trạng thái toàn cục
-import store from './store';
+import store from "./store";
 
 // Import component Toast tùy chỉnh (dùng để hiển thị thông báo)
-import Toast from './components/Toast.vue';
+import Toast from "./components/Toast.vue";
 
 // Import các stylesheet từ Bootstrap và Font Awesome
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // Khởi tạo ứng dụng Vue
 const app = createApp(App);
@@ -25,7 +25,7 @@ const toast = {
   // Hàm install là quy ước khi tạo một Vue plugin
   install: (app) => {
     // Tạo một thẻ div trong body để chứa các toast message
-    const toastContainer = document.createElement('div');
+    const toastContainer = document.createElement("div");
     document.body.appendChild(toastContainer);
 
     // Mount component Toast vào div vừa tạo
@@ -38,11 +38,11 @@ const toast = {
        * @param {string} message - Nội dung thông báo
        * @param {string} type - Loại thông báo: 'success', 'error', 'info' (mặc định: 'success')
        */
-      show(message, type = 'success') {
+      show(message, type = "success") {
         toastInstance.addToast(message, type);
-      }
+      },
     };
-  }
+  },
 };
 
 // Đăng ký Vuex store vào ứng dụng
@@ -55,4 +55,4 @@ app.use(toast);
 app.use(router);
 
 // Mount ứng dụng vào thẻ HTML có id="app"
-app.mount('#app');
+app.mount("#app");

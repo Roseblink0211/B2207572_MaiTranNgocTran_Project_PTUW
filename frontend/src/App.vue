@@ -1,7 +1,7 @@
 <!-- frontend/src/App.vue -->
 <template>
   <div class="app-container">
-    <!-- Component hiển thị toast thông báo (nằm cố định toàn app) -->
+    <!-- .Component hiển thị toast thông báo (nằm cố định toàn app) -->
     <Toast />
 
     <!-- Hiển thị component theo route hiện tại -->

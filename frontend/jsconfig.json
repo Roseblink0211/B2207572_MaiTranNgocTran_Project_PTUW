@@ -4,5 +4,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "exclud": ["node_modules", "../backend/dist"]
+  "exclude": ["node_modules", "../backend/dist"]
 }

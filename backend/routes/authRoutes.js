@@ -1,19 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 const {
   loginStaff,
   loginReader,
-  registerReader
-} = require('../controllers/authController.js');
+  registerReader,
+} = require("../controllers/authController.js");
 
-// Nhân viên đăng nhập
-router.post('/staff/login', loginStaff);
+// Nhân viên đăng nhập.
+router.post("/staff/login", loginStaff);
 
 // Độc giả đăng nhập
-router.post('/reader/login', loginReader);
+router.post("/reader/login", loginReader);
 
 // Độc giả đăng ký
-router.post('/reader/register', registerReader);
+router.post("/reader/register", registerReader);
 
 module.exports = router;

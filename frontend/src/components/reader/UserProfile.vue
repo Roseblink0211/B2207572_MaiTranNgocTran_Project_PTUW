@@ -1,6 +1,6 @@
 <template>
   <div class="user-profile">
-    <h2>Thông tin cá nhân</h2>
+    <h2>Thông in cá nhân</h2>
     <div v-if="loading" class="text-center">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Đang tải...</span>
@@ -293,9 +293,9 @@ export default {
       errors,
       loading,
       error,
-      clearError, 
+      clearError,
       clearMessage,
-      message, 
+      message,
       handleUpdateProfile,
       cancelUpdate,
       showPasswordMessage,

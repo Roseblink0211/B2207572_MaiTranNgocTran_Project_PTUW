@@ -1,7 +1,7 @@
 <template>
   <div class="register-view">
     <RegisterForm />
-  </iv>
+  </div>
 </template>
 
 <script>

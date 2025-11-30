@@ -1,14 +1,14 @@
-import { getCurrentInstance } from 'vue';
+import { getCurrentInstance } from "vue";
 
 /**
- * Hàm hiển thị thông báo thành công (toast success)
+ * .Hàm hiển thị thông báo thành công (toast success)
  * @param {string} message - Nội dung thông báo
  */
 export const showSuccess = (message) => {
   const app = getCurrentInstance(); // Lấy thể hiện hiện tại của component đang chạy
   if (app) {
     // Sử dụng biến proxy để truy cập global property (ví dụ như $toast)
-    app.proxy.$toast.show(message, 'success'); // Hiển thị toast kiểu success
+    app.proxy.$toast.show(message, "success"); // Hiển thị toast kiểu success
   }
 };
 
@@ -18,15 +18,18 @@ export const showSuccess = (message) => {
  */
 export const showError = (error) => {
   const app = getCurrentInstance();
-  let message = 'Có lỗi xảy ra'; // Mặc định nếu không có thông tin lỗi cụ thể
+  let message = "Có lỗi xảy ra"; // Mặc định nếu không có thông tin lỗi cụ thể
 
   // Kiểm tra nếu lỗi có phản hồi từ server
   if (error.response) {
     // Lấy thông báo lỗi từ server (nếu có)
-    message = error.response.data.message || error.response.data.error || 'Lỗi từ server';
+    message =
+      error.response.data.message ||
+      error.response.data.error ||
+      "Lỗi từ server";
   } else if (error.request) {
     // Trường hợp gửi request nhưng không có phản hồi
-    message = 'Không thể kết nối đến server';
+    message = "Không thể kết nối đến server";
   } else {
     // Trường hợp lỗi khi xử lý trong client
     message = error.message;
@@ -34,7 +37,7 @@ export const showError = (error) => {
 
   if (app) {
     // Hiển thị thông báo lỗi dạng toast với màu đỏ
-    app.proxy.$toast.show(message, 'danger');
+    app.proxy.$toast.show(message, "danger");
   }
 };
 
@@ -45,5 +48,7 @@ export const showError = (error) => {
  */
 export const showConfirm = (message) => {
   // Dùng window.confirm để hiện hộp thoại xác nhận
-  return window.confirm(message || 'Bạn có chắc chắn muốn thực hiện thao tác này?');
+  return window.confirm(
+    message || "Bạn có chắc chắn muốn thực hiện thao tác này?"
+  );
 };

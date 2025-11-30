@@ -4,7 +4,7 @@
 
     <h2 class="mb-4">Tổng quan thư viện</h2>
 
-    <!-- Error Alert -->
+    <!-- Error Alert -->.
     <div v-if="error" class="alert alert-danger alert-dismissible fade show">
       {{ error }}
       <button type="button" class="btn-close" @click="clearError"></button>
@@ -50,7 +50,9 @@
                 <i class="fas fa-building text-primary"></i>
               </div>
               <div>
-                <h3 class="card-title text-primary mb-0">{{ totalPublishers }}</h3>
+                <h3 class="card-title text-primary mb-0">
+                  {{ totalPublishers }}
+                </h3>
                 <p class="card-text mb-0">Nhà xuất bản</p>
               </div>
             </div>
@@ -65,7 +67,9 @@
                 <i class="fas fa-hand-holding text-info"></i>
               </div>
               <div>
-                <h3 class="card-title text-info mb-0">{{ totalBorrowedBooks }}</h3>
+                <h3 class="card-title text-info mb-0">
+                  {{ totalBorrowedBooks }}
+                </h3>
                 <p class="card-text mb-0">Đang được mượn</p>
               </div>
             </div>
@@ -85,7 +89,9 @@
                 <i class="fas fa-exclamation-triangle text-danger"></i>
               </div>
               <div>
-                <h3 class="card-title text-danger mb-0">{{ currentOverdueCount }}</h3>
+                <h3 class="card-title text-danger mb-0">
+                  {{ currentOverdueCount }}
+                </h3>
                 <p class="card-text mb-0">Sách quá hạn</p>
                 <small class="text-muted">Chưa trả</small>
               </div>
@@ -101,7 +107,9 @@
                 <i class="fas fa-clock text-warning"></i>
               </div>
               <div>
-                <h3 class="card-title text-warning mb-0">{{ totalOverdueReturns }}</h3>
+                <h3 class="card-title text-warning mb-0">
+                  {{ totalOverdueReturns }}
+                </h3>
                 <p class="card-text mb-0">Lần trả trễ</p>
                 <small class="text-muted">Tổng cộng</small>
               </div>
@@ -117,7 +125,9 @@
                 <i class="fas fa-money-bill-wave text-success"></i>
               </div>
               <div>
-                <h3 class="card-title text-success mb-0">{{ formatCurrency(totalPenalty) }}</h3>
+                <h3 class="card-title text-success mb-0">
+                  {{ formatCurrency(totalPenalty) }}
+                </h3>
                 <p class="card-text mb-0">Tổng tiền phạt</p>
                 <small class="text-muted">Đã thu</small>
               </div>
@@ -133,7 +143,9 @@
                 <i class="fas fa-check-circle text-secondary"></i>
               </div>
               <div>
-                <h3 class="card-title text-secondary mb-0">{{ totalReturned }}</h3>
+                <h3 class="card-title text-secondary mb-0">
+                  {{ totalReturned }}
+                </h3>
                 <p class="card-text mb-0">Sách đã trả</p>
                 <small class="text-muted">Hoàn thành</small>
               </div>
@@ -155,11 +167,13 @@
               <div class="progress-item">
                 <div class="d-flex justify-content-between">
                   <span class="text-success">Trả đúng hạn</span>
-                  <span class="fw-bold text-success">{{ onTimeReturnRate }}%</span>
+                  <span class="fw-bold text-success"
+                    >{{ onTimeReturnRate }}%</span
+                  >
                 </div>
                 <div class="progress mt-1">
-                  <div 
-                    class="progress-bar bg-success" 
+                  <div
+                    class="progress-bar bg-success"
                     :style="{ width: onTimeReturnRate + '%' }"
                   ></div>
                 </div>
@@ -170,8 +184,8 @@
                   <span class="fw-bold text-danger">{{ lateReturnRate }}%</span>
                 </div>
                 <div class="progress mt-1">
-                  <div 
-                    class="progress-bar bg-danger" 
+                  <div
+                    class="progress-bar bg-danger"
                     :style="{ width: lateReturnRate + '%' }"
                   ></div>
                 </div>
@@ -180,29 +194,37 @@
           </div>
         </div>
       </div>
-      
+
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
             <h5 class="mb-0">Thống kê nhanh</h5>
           </div>
           <div class="card-body">
-            <div class="stat-item d-flex justify-content-between align-items-center py-2">
+            <div
+              class="stat-item d-flex justify-content-between align-items-center py-2"
+            >
               <span class="text-muted">Trung bình phạt/lần:</span>
               <span class="fw-bold">{{ formatCurrency(averagePenalty) }}</span>
             </div>
-            <hr class="my-2">
-            <div class="stat-item d-flex justify-content-between align-items-center py-2">
+            <hr class="my-2" />
+            <div
+              class="stat-item d-flex justify-content-between align-items-center py-2"
+            >
               <span class="text-muted">Tổng độc giả:</span>
               <span class="fw-bold">{{ totalReaders }}</span>
             </div>
-            <hr class="my-2">
-            <div class="stat-item d-flex justify-content-between align-items-center py-2">
+            <hr class="my-2" />
+            <div
+              class="stat-item d-flex justify-content-between align-items-center py-2"
+            >
               <span class="text-muted">Sách có sẵn:</span>
               <span class="fw-bold text-success">{{ availableBooks }}</span>
             </div>
-            <hr class="my-2">
-            <div class="stat-item d-flex justify-content-between align-items-center py-2">
+            <hr class="my-2" />
+            <div
+              class="stat-item d-flex justify-content-between align-items-center py-2"
+            >
               <span class="text-muted">Yêu cầu chờ duyệt:</span>
               <span class="fw-bold text-warning">{{ pendingRequests }}</span>
             </div>
@@ -253,16 +275,26 @@ export default {
     );
 
     // Thống kê phạt và quá hạn
-    const libraryStats = computed(() => store.getters["borrow/libraryStatistics"]);
-    const currentOverdueCount = computed(() => libraryStats.value?.soSachDangQuaHan || 0);
-    const totalOverdueReturns = computed(() => libraryStats.value?.tongSoLanTraTre || 0);
+    const libraryStats = computed(
+      () => store.getters["borrow/libraryStatistics"]
+    );
+    const currentOverdueCount = computed(
+      () => libraryStats.value?.soSachDangQuaHan || 0
+    );
+    const totalOverdueReturns = computed(
+      () => libraryStats.value?.tongSoLanTraTre || 0
+    );
     const totalPenalty = computed(() => libraryStats.value?.tongTienPhat || 0);
-    const totalReturned = computed(() => libraryStats.value?.tongSoSachDaTra || 0);
+    const totalReturned = computed(
+      () => libraryStats.value?.tongSoSachDaTra || 0
+    );
 
     // Thống kê bổ sung
     const totalReaders = computed(() => {
       const requests = store.getters["borrow/allBorrowRequests"];
-      const readerIds = new Set(requests.map(req => req.maDocGia?._id).filter(Boolean));
+      const readerIds = new Set(
+        requests.map((req) => req.maDocGia?._id).filter(Boolean)
+      );
       return readerIds.size;
     });
 
@@ -377,7 +409,7 @@ export default {
 .card {
   background: white;
   border-radius: 12px;
-  border: 1px solid #e3f2fd; 
+  border: 1px solid #e3f2fd;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }

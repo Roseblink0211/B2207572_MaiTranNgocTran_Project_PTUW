@@ -1,7 +1,7 @@
 <template>
   <div class="login-view">
     <LoginForm />
-  </div>
+  </iv>
 </template>
 
 <script>

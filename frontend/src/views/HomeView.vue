@@ -1,7 +1,7 @@
 <template>
   <div class="home-background">
     <div class="home-container">
-      <!-- Left side - Content -->
+      <!-- ,Left side - Content -->
       <div class="home-left">
         <div class="home-content">
           <div class="home-title">

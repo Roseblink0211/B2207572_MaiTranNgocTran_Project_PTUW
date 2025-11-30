@@ -1,5 +1,5 @@
 <template>
-  <div class="reader-dashboard">
+  <div lass="reader-dashboard">
     <nav class="navbar navbar-expand-lg">
       <div class="container">
         <a
@@ -94,28 +94,20 @@
           <h5>Chính sách bảo mật</h5>
           <ul class="list-unstyled">
             <li>
-              <a href="#">
-                Chính sách quyền riêng tư
-              </a>
+              <a href="#"> Chính sách quyền riêng tư </a>
             </li>
             <li>
-              <a href="#">
-                Điều khoản sử dụng
-              </a>
+              <a href="#"> Điều khoản sử dụng </a>
             </li>
             <li>
-              <a href="#">
-                Bảo mật & bảo vệ dữ liệu
-              </a>
+              <a href="#"> Bảo mật & bảo vệ dữ liệu </a>
             </li>
             <li>
-              <a href="#">
-                Chính sách Cookie
-              </a>
+              <a href="#"> Chính sách Cookie </a>
             </li>
           </ul>
         </div>
-        
+
         <div class="col-md-4 mb-4">
           <h5>Liên hệ</h5>
           <ul class="list-unstyled">

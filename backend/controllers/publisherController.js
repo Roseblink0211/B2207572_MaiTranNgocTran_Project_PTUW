@@ -1,4 +1,4 @@
-const NhaXuatBan = require('../models/NhaXuatBan');
+const NhaXuatBan = require("../models/NhaXuatBan");
 
 // Lấy danh sách tất cả nhà xuất bản
 const getAllPublishers = async (req, res) => {
@@ -10,7 +10,7 @@ const getAllPublishers = async (req, res) => {
   }
 };
 
-// Thêm nhà xuất bản mới
+// Thêm nhà xuất bản mới.
 const createPublisher = async (req, res) => {
   try {
     const publisher = new NhaXuatBan(req.body);
@@ -33,7 +33,7 @@ const updatePublisher = async (req, res) => {
     );
 
     if (!publisher) {
-      return res.status(404).json({ message: 'Không tìm thấy nhà xuất bản' });
+      return res.status(404).json({ message: "Không tìm thấy nhà xuất bản" });
     }
     res.json(publisher);
   } catch (error) {
@@ -47,9 +47,9 @@ const deletePublisher = async (req, res) => {
     const publisher = await NhaXuatBan.findByIdAndDelete(req.params.id);
 
     if (!publisher) {
-      return res.status(404).json({ message: 'Không tìm thấy nhà xuất bản' });
+      return res.status(404).json({ message: "Không tìm thấy nhà xuất bản" });
     }
-    res.json({ message: 'Xóa nhà xuất bản thành công' });
+    res.json({ message: "Xóa nhà xuất bản thành công" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -60,7 +60,7 @@ const getPublisherById = async (req, res) => {
   try {
     const publisher = await NhaXuatBan.findById(req.params.id);
     if (!publisher) {
-      return res.status(404).json({ message: 'Không tìm thấy nhà xuất bản' });
+      return res.status(404).json({ message: "Không tìm thấy nhà xuất bản" });
     }
     res.json(publisher);
   } catch (error) {
@@ -73,5 +73,5 @@ module.exports = {
   createPublisher,
   updatePublisher,
   deletePublisher,
-  getPublisherById
+  getPublisherById,
 };

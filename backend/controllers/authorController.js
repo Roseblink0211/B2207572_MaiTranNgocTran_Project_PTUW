@@ -1,4 +1,4 @@
-const TacGia = require('../models/TacGia');
+const TacGia = require("../models/TacGia");
 
 // Lấy danh sách tất cả tác giả
 const getAllAuthors = async (req, res) => {
@@ -10,14 +10,14 @@ const getAllAuthors = async (req, res) => {
   }
 };
 
-// Thêm tác giả mới
+// Thêm tác giả mới.
 const createAuthor = async (req, res) => {
   try {
     const author = new TacGia(req.body); // Tạo instance từ dữ liệu gửi lên
     await author.save(); // Lưu vào database
     res.status(201).json(author);
   } catch (error) {
-    console.error('Create author error:', error); // Ghi log lỗi server
+    console.error("Create author error:", error); // Ghi log lỗi server
     res.status(400).json({ message: error.message });
   }
 };
@@ -26,13 +26,13 @@ const createAuthor = async (req, res) => {
 const updateAuthor = async (req, res) => {
   try {
     const author = await TacGia.findByIdAndUpdate(
-      req.params.id,       // Lấy ID từ URL
-      req.body,            // Dữ liệu cần cập nhật
-      { new: true }        // Trả về bản ghi sau khi cập nhật
+      req.params.id, // Lấy ID từ URL
+      req.body, // Dữ liệu cần cập nhật
+      { new: true } // Trả về bản ghi sau khi cập nhật
     );
 
     if (!author) {
-      return res.status(404).json({ message: 'Không tìm thấy tác giả' });
+      return res.status(404).json({ message: "Không tìm thấy tác giả" });
     }
 
     res.json(author);
@@ -47,10 +47,10 @@ const deleteAuthor = async (req, res) => {
     const author = await TacGia.findByIdAndDelete(req.params.id);
 
     if (!author) {
-      return res.status(404).json({ message: 'Không tìm thấy tác giả' });
+      return res.status(404).json({ message: "Không tìm thấy tác giả" });
     }
 
-    res.json({ message: 'Xóa tác giả thành công' });
+    res.json({ message: "Xóa tác giả thành công" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -62,7 +62,7 @@ const getAuthorById = async (req, res) => {
     const author = await TacGia.findById(req.params.id);
 
     if (!author) {
-      return res.status(404).json({ message: 'Không tìm thấy tác giả' });
+      return res.status(404).json({ message: "Không tìm thấy tác giả" });
     }
 
     res.json(author);
@@ -76,5 +76,5 @@ module.exports = {
   createAuthor,
   updateAuthor,
   deleteAuthor,
-  getAuthorById
+  getAuthorById,
 };

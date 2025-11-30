@@ -1,12 +1,12 @@
-const TheoDoiMuonSach = require('../models/TheoDoiMuonSach');
-const Sach = require('../models/Sach');
+const TheoDoiMuonSach = require("../models/TheoDoiMuonSach");
+const Sach = require("../models/Sach");
 
 // Lấy danh sách tất cả yêu cầu mượn sách
 const getAllBorrowRequests = async (req, res) => {
   try {
     const requests = await TheoDoiMuonSach.find()
-      .populate('maDocGia')
-      .populate('maSach')
+      .populate("maDocGia")
+      .populate("maSach")
       .sort({ createdAt: -1 });
     res.json(requests);
   } catch (error) {
@@ -19,8 +19,8 @@ const getReaderBorrowHistory = async (req, res) => {
   try {
     const history = await TheoDoiMuonSach.find({ maDocGia: req.user._id })
       .populate({
-        path: 'maSach',
-        select: 'maSach tenSach soQuyen'
+        path: "maSach",
+        select: "maSach tenSach soQuyen",
       })
       .sort({ createdAt: -1 });
     res.json(history);
@@ -41,7 +41,7 @@ const createBorrowRequest = async (req, res) => {
       maSach: req.body.maSach,
       ngayMuon: new Date(),
       ngayHenTra: ngayHenTra,
-      trangThai: 'Chờ duyệt'
+      trangThai: "Chờ duyệt",
     });
     await borrowRequest.save();
     res.status(201).json(borrowRequest);
@@ -50,27 +50,31 @@ const createBorrowRequest = async (req, res) => {
   }
 };
 
-// Cập nhật trạng thái yêu cầu mượn sách
+// Cập nhật trạng thái yêu cầu mượn sách.
 const updateBorrowRequest = async (req, res) => {
   try {
     const { trangThai } = req.body;
     const request = await TheoDoiMuonSach.findById(req.params.id)
-      .populate('maSach')
-      .populate('maDocGia');
+      .populate("maSach")
+      .populate("maDocGia");
 
     if (!request) {
-      return res.status(404).json({ message: 'Không tìm thấy yêu cầu mượn sách' });
+      return res
+        .status(404)
+        .json({ message: "Không tìm thấy yêu cầu mượn sách" });
     }
 
     const book = await Sach.findById(request.maSach._id);
     if (!book) {
-      return res.status(404).json({ message: 'Không tìm thấy sách' });
+      return res.status(404).json({ message: "Không tìm thấy sách" });
     }
 
     // Cập nhật số lượng sách dựa trên trạng thái
-    if (trangThai === 'Đã duyệt') {
+    if (trangThai === "Đã duyệt") {
       if (book.soQuyen <= 0) {
-        return res.status(400).json({ message: 'Sách đã hết, không thể cho mượn' });
+        return res
+          .status(400)
+          .json({ message: "Sách đã hết, không thể cho mượn" });
       }
       book.soQuyen -= 1;
 
@@ -80,7 +84,7 @@ const updateBorrowRequest = async (req, res) => {
         ngayHenTra.setDate(ngayHenTra.getDate() + 14);
         request.ngayHenTra = ngayHenTra;
       }
-    } else if (trangThai === 'Đã trả' && request.trangThai === 'Đã duyệt') {
+    } else if (trangThai === "Đã trả" && request.trangThai === "Đã duyệt") {
       book.soQuyen += 1;
       // Cập nhật ngày trả và tính phạt
       request.ngayTra = new Date();
@@ -100,8 +104,8 @@ const updateBorrowRequest = async (req, res) => {
       ...request.toObject(),
       maSach: {
         ...request.maSach.toObject(),
-        soQuyen: book.soQuyen
-      }
+        soQuyen: book.soQuyen,
+      },
     };
 
     return res.json(response);
@@ -116,25 +120,27 @@ const getPenaltyStatistics = async (req, res) => {
     const statistics = await TheoDoiMuonSach.aggregate([
       {
         $match: {
-          trangThai: 'Đã trả',
-          tienPhat: { $gt: 0 }
-        }
+          trangThai: "Đã trả",
+          tienPhat: { $gt: 0 },
+        },
       },
       {
         $group: {
           _id: null,
-          tongTienPhat: { $sum: '$tienPhat' },
+          tongTienPhat: { $sum: "$tienPhat" },
           tongSoTruongHopTre: { $sum: 1 },
-          trungBinhNgayTre: { $avg: '$soNgayTre' }
-        }
-      }
+          trungBinhNgayTre: { $avg: "$soNgayTre" },
+        },
+      },
     ]);
 
-    res.json(statistics[0] || {
-      tongTienPhat: 0,
-      tongSoTruongHopTre: 0,
-      trungBinhNgayTre: 0
-    });
+    res.json(
+      statistics[0] || {
+        tongTienPhat: 0,
+        tongSoTruongHopTre: 0,
+        trungBinhNgayTre: 0,
+      }
+    );
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -144,11 +150,11 @@ const getPenaltyStatistics = async (req, res) => {
 const getOverdueReturns = async (req, res) => {
   try {
     const overdueReturns = await TheoDoiMuonSach.find({
-      trangThai: 'Đã trả',
-      tienPhat: { $gt: 0 }
+      trangThai: "Đã trả",
+      tienPhat: { $gt: 0 },
     })
-      .populate('maDocGia', 'hoLot ten maDocGia')
-      .populate('maSach', 'tenSach maSach')
+      .populate("maDocGia", "hoLot ten maDocGia")
+      .populate("maSach", "tenSach maSach")
       .sort({ ngayTra: -1 });
 
     res.json(overdueReturns);
@@ -163,15 +169,15 @@ const getCurrentOverdueBooks = async (req, res) => {
     const currentDate = new Date();
 
     const overdueBooks = await TheoDoiMuonSach.find({
-      trangThai: 'Đã duyệt',
-      ngayHenTra: { $lt: currentDate }
+      trangThai: "Đã duyệt",
+      ngayHenTra: { $lt: currentDate },
     })
-      .populate('maDocGia', 'hoLot ten maDocGia email soDienThoai')
-      .populate('maSach', 'tenSach maSach')
+      .populate("maDocGia", "hoLot ten maDocGia email soDienThoai")
+      .populate("maSach", "tenSach maSach")
       .sort({ ngayHenTra: 1 }); // Sắp xếp theo ngày hẹn trả cũ nhất
 
     // Tính số ngày quá hạn cho mỗi sách
-    const overdueWithDays = overdueBooks.map(book => {
+    const overdueWithDays = overdueBooks.map((book) => {
       const timeDiff = currentDate - new Date(book.ngayHenTra);
       const daysOverdue = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
       const estimatedPenalty = daysOverdue * 3000;
@@ -179,7 +185,7 @@ const getCurrentOverdueBooks = async (req, res) => {
       return {
         ...book.toObject(),
         soNgayQuaHan: daysOverdue,
-        tienPhatDuKien: estimatedPenalty
+        tienPhatDuKien: estimatedPenalty,
       };
     });
 
@@ -197,22 +203,22 @@ const getLibraryStatistics = async (req, res) => {
       totalReturned,
       totalOverdue,
       totalPenalty,
-      currentOverdue
+      currentOverdue,
     ] = await Promise.all([
-      TheoDoiMuonSach.countDocuments({ trangThai: 'Đã duyệt' }),
-      TheoDoiMuonSach.countDocuments({ trangThai: 'Đã trả' }),
+      TheoDoiMuonSach.countDocuments({ trangThai: "Đã duyệt" }),
+      TheoDoiMuonSach.countDocuments({ trangThai: "Đã trả" }),
       TheoDoiMuonSach.countDocuments({
-        trangThai: 'Đã trả',
-        tienPhat: { $gt: 0 }
+        trangThai: "Đã trả",
+        tienPhat: { $gt: 0 },
       }),
       TheoDoiMuonSach.aggregate([
-        { $match: { trangThai: 'Đã trả', tienPhat: { $gt: 0 } } },
-        { $group: { _id: null, total: { $sum: '$tienPhat' } } }
+        { $match: { trangThai: "Đã trả", tienPhat: { $gt: 0 } } },
+        { $group: { _id: null, total: { $sum: "$tienPhat" } } },
       ]),
       TheoDoiMuonSach.countDocuments({
-        trangThai: 'Đã duyệt',
-        ngayHenTra: { $lt: new Date() }
-      })
+        trangThai: "Đã duyệt",
+        ngayHenTra: { $lt: new Date() },
+      }),
     ]);
 
     res.json({
@@ -220,7 +226,7 @@ const getLibraryStatistics = async (req, res) => {
       tongSoSachDaTra: totalReturned,
       tongSoLanTraTre: totalOverdue,
       tongTienPhat: totalPenalty[0]?.total || 0,
-      soSachDangQuaHan: currentOverdue
+      soSachDangQuaHan: currentOverdue,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -234,6 +240,6 @@ module.exports = {
   updateBorrowRequest,
   getPenaltyStatistics,
   getOverdueReturns,
-  getCurrentOverdueBooks,     // API mới
-  getLibraryStatistics        // API mới
+  getCurrentOverdueBooks, // API mới
+  getLibraryStatistics, // API mới
 };

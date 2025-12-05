@@ -1,6 +1,7 @@
 <template>
   <div class="borrow-management">
     <LoadingSpinner :show="loading" />
+
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2>Quản lý mượn sách</h2>
     </div>
@@ -22,7 +23,7 @@
       </div>
     </div>
 
-    <!-- Tabs for different request status -->
+    <!-- Tabs trạng thái -->
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
         <a
@@ -87,38 +88,43 @@
               {{ request.maDocGia?.hoLot || "N/A" }}
               {{ request.maDocGia?.ten || "" }}
               <br />
-              <small class="text-muted">{{
-                request.maDocGia?.maDocGia || "N/A"
-              }}</small>
+              <small class="text-muted">
+                {{ request.maDocGia?.maDocGia || "N/A" }}
+              </small>
             </td>
+
             <td>
               {{ request.maSach?.tenSach || "N/A" }}
               <br />
-              <small class="text-muted">{{
-                request.maSach?.maSach || "N/A"
-              }}</small>
+              <small class="text-muted">
+                {{ request.maSach?.maSach || "N/A" }}
+              </small>
               <br />
               <small :class="getQuantityClass(request.maSach?.soQuyen)">
-                Còn lại: {{ request.maSach?.soQuyen || 0 }} quyển
+                Còn lại: {{ request.maSach?.soQuyen ?? 0 }} quyển
               </small>
             </td>
+
             <td>{{ formatDate(request.ngayMuon) }}</td>
+
             <!-- Chỉ hiện cột Ngày trả ở tab Đã trả hoặc All -->
             <td v-if="currentTab === 'returned' || currentTab === 'all'">
               {{ request.ngayTra ? formatDate(request.ngayTra) : "-" }}
             </td>
+
             <td>
               <span :class="getStatusBadgeClass(request.trangThai)">
                 {{ request.trangThai }}
               </span>
             </td>
+
             <!-- Ẩn cột Thao tác ở tab Đã từ chối và Đã trả -->
             <td v-if="currentTab !== 'rejected' && currentTab !== 'returned'">
               <template v-if="request.trangThai === 'Chờ duyệt'">
                 <button
                   class="btn btn-sm btn-success me-2"
                   @click="showConfirmAction('approve', request)"
-                  :disabled="request.maSach?.soQuyen <= 0"
+                  :disabled="(request.maSach?.soQuyen ?? 0) <= 0"
                 >
                   <i class="fas fa-check"></i> Duyệt
                 </button>
@@ -129,7 +135,8 @@
                   <i class="fas fa-times"></i> Từ chối
                 </button>
               </template>
-              <template v-if="request.trangThai === 'Đã duyệt'">
+
+              <template v-else-if="request.trangThai === 'Đã duyệt'">
                 <button
                   class="btn btn-sm btn-info"
                   @click="showConfirmAction('return', request)"
@@ -139,9 +146,18 @@
               </template>
             </td>
           </tr>
+
+          <!-- Không có dữ liệu -->
+          <tr v-if="!loading && filteredRequests.length === 0">
+            <td colspan="6" class="text-center text-muted py-4">
+              Không có dữ liệu.
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- Modal xác nhận -->
     <div class="modal" tabindex="-1" :class="{ 'd-block': showConfirmModal }">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -168,7 +184,7 @@
               type="button"
               :class="getActionButtonClass"
               @click="handleConfirmAction"
-              :disabled="loading"
+              :disabled="loading || !selectedRequest"
             >
               {{ loading ? "Đang xử lý..." : getActionButtonText }}
             </button>
@@ -199,36 +215,58 @@ export default {
     const selectedAction = ref("");
     const searchTerm = ref("");
 
+    // đảm bảo LUÔN LÀ MẢNG
     const borrowRequests = computed(
-      () => store.getters["borrow/allBorrowRequests"]
+      () => store.getters["borrow/allBorrowRequests"] || []
     );
 
     const filteredRequests = computed(() => {
-      let requests = borrowRequests.value;
+      // luôn clone ra mảng mới, không bao giờ undefined
+      let requests = Array.isArray(borrowRequests.value)
+        ? [...borrowRequests.value]
+        : [];
 
-      if (currentTab.value !== "all") {
+      // lọc theo tab
+      if (currentTab.value && currentTab.value !== "all") {
         const statusMap = {
           pending: "Chờ duyệt",
           approved: "Đã duyệt",
           rejected: "Từ chối",
           returned: "Đã trả",
         };
-        requests = requests.filter(
-          (request) => request.trangThai === statusMap[currentTab.value]
-        );
+        const targetStatus = statusMap[currentTab.value];
+        if (targetStatus) {
+          requests = requests.filter(
+            (request) => request.trangThai === targetStatus
+          );
+        }
       }
 
-      if (searchTerm.value.trim()) {
-        const search = searchTerm.value.toLowerCase().trim();
-        requests = requests.filter(
-          (request) =>
-            `${request.maDocGia?.hoLot} ${request.maDocGia?.ten}`
-              .toLowerCase()
-              .includes(search) ||
-            request.maDocGia?.maDocGia.toLowerCase().includes(search) ||
-            request.maSach?.tenSach.toLowerCase().includes(search) ||
-            request.maSach?.maSach.toLowerCase().includes(search)
-        );
+      // lọc theo từ khóa
+      const rawSearch = searchTerm.value.trim().toLowerCase();
+      if (rawSearch) {
+        requests = requests.filter((request) => {
+          const readerName = `${request.maDocGia?.hoLot || ""} ${
+            request.maDocGia?.ten || ""
+          }`
+            .trim()
+            .toLowerCase();
+
+          const readerCode = (request.maDocGia?.maDocGia || "")
+            .toLowerCase()
+            .trim();
+
+          const bookName = (request.maSach?.tenSach || "").toLowerCase().trim();
+
+          const bookCode = (request.maSach?.maSach || "").toLowerCase().trim();
+
+          return (
+            readerName.includes(rawSearch) ||
+            readerCode.includes(rawSearch) ||
+            bookName.includes(rawSearch) ||
+            bookCode.includes(rawSearch)
+          );
+        });
       }
 
       return requests;
@@ -245,10 +283,15 @@ export default {
 
     const confirmMessage = computed(() => {
       if (!selectedRequest.value) return "";
+      const readerName = `${selectedRequest.value.maDocGia?.hoLot || ""} ${
+        selectedRequest.value.maDocGia?.ten || ""
+      }`.trim();
+      const bookName = selectedRequest.value.maSach?.tenSach || "sách";
+
       const messages = {
-        approve: `Bạn có chắc muốn duyệt yêu cầu mượn sách "${selectedRequest.value.maSach?.tenSach}" của độc giả "${selectedRequest.value.maDocGia?.hoLot} ${selectedRequest.value.maDocGia?.ten}" không?`,
-        reject: `Bạn có chắc muốn từ chối yêu cầu mượn sách "${selectedRequest.value.maSach?.tenSach}" của độc giả "${selectedRequest.value.maDocGia?.hoLot} ${selectedRequest.value.maDocGia?.ten}" không?`,
-        return: `Bạn có chắc muốn xác nhận độc giả "${selectedRequest.value.maDocGia?.hoLot} ${selectedRequest.value.maDocGia?.ten}" đã trả sách "${selectedRequest.value.maSach?.tenSach}" không?`,
+        approve: `Bạn có chắc muốn duyệt yêu cầu mượn sách "${bookName}" của độc giả "${readerName}" không?`,
+        reject: `Bạn có chắc muốn từ chối yêu cầu mượn sách "${bookName}" của độc giả "${readerName}" không?`,
+        return: `Bạn có chắc muốn xác nhận độc giả "${readerName}" đã trả sách "${bookName}" không?`,
       };
       return messages[selectedAction.value] || "";
     });
@@ -268,10 +311,11 @@ export default {
         reject: "Từ chối",
         return: "Xác nhận",
       };
-      return texts[selectedAction.value] || "";
+      return texts[selectedAction.value] || "Xác nhận";
     });
 
     const formatDate = (date) => {
+      if (!date) return "-";
       return new Date(date).toLocaleDateString("vi-VN");
     };
 
@@ -297,8 +341,9 @@ export default {
     };
 
     const getQuantityClass = (quantity) => {
-      if (quantity <= 0) return "text-danger fw-bold";
-      if (quantity < 3) return "text-warning fw-bold";
+      const q = Number.isFinite(quantity) ? quantity : 0;
+      if (q <= 0) return "text-danger fw-bold";
+      if (q < 3) return "text-warning fw-bold";
       return "text-success";
     };
 
@@ -314,20 +359,6 @@ export default {
       selectedAction.value = "";
     };
 
-    const handleConfirmAction = async () => {
-      const statusMap = {
-        approve: "Đã duyệt",
-        reject: "Từ chối",
-        return: "Đã trả",
-      };
-
-      await updateStatus(
-        selectedRequest.value._id,
-        statusMap[selectedAction.value]
-      );
-      closeConfirmModal();
-    };
-
     const updateStatus = async (id, status) => {
       loading.value = true;
       try {
@@ -336,12 +367,28 @@ export default {
         await fetchBorrowRequests();
       } catch (error) {
         proxy.$toast.show(
-          error.response?.data?.message || "Có lỗi xảy ra",
+          error?.response?.data?.message || "Có lỗi xảy ra",
           "danger"
         );
       } finally {
         loading.value = false;
       }
+    };
+
+    const handleConfirmAction = async () => {
+      if (!selectedRequest.value || !selectedAction.value) return;
+
+      const statusMap = {
+        approve: "Đã duyệt",
+        reject: "Từ chối",
+        return: "Đã trả",
+      };
+
+      const newStatus = statusMap[selectedAction.value];
+      if (!newStatus) return;
+
+      await updateStatus(selectedRequest.value._id, newStatus);
+      closeConfirmModal();
     };
 
     onMounted(fetchBorrowRequests);
@@ -377,30 +424,36 @@ export default {
 .card:hover {
   transform: translateY(-5px);
 }
+
+/* Nền mờ modal */
 .modal {
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+/* Bảng */
 .table {
   font-size: 0.95rem;
   border-collapse: collapse;
 }
 .table thead th {
-  background-color: #e1f5fe;
-  color: #0277bd;
+  background-color: #ffecb3; /* vàng nhạt */
+  color: #8d6e00; /* chữ vàng đậm */
   font-weight: 600;
   vertical-align: middle;
   padding: 12px;
 }
 .table-striped > tbody > tr:nth-child(odd) {
-  background-color: #f8fbfc;
+  background-color: #fffdf5; /* nền hàng lẻ hơi vàng */
 }
+
+/* Ô tìm kiếm */
 .input-group {
   max-width: 500px;
 }
 .input-group-text {
-  background-color: white;
+  background-color: #fff;
   border-left: none;
-  color: #4fc3f7;
+  color: #ffb300; /* vàng tươi */
   border-radius: 0 6px 6px 0;
   border: 1px solid #cfd8dc;
   border-left: 0;
@@ -413,13 +466,15 @@ export default {
   transition: border-color 0.2s ease;
 }
 .form-control:focus {
-  border-color: #4fc3f7;
-  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.1);
+  border-color: #ffb300; /* viền vàng */
+  box-shadow: 0 0 0 2px rgba(255, 179, 0, 0.2);
   outline: none;
 }
 .form-control:focus + .input-group-text {
-  border-color: #4fc3f7;
+  border-color: #ffb300;
 }
+
+/* Badge trạng thái */
 .badge {
   font-size: 0.85em;
   padding: 0.4em 0.6em;
@@ -446,6 +501,8 @@ export default {
   background-color: #eceff1;
   color: #546e7a;
 }
+
+/* Text màu */
 .text-danger {
   font-weight: bold;
   color: #dc3545 !important;
@@ -463,8 +520,10 @@ export default {
   font-style: italic;
   color: #78909c;
 }
+
+/* Nút chính màu vàng tươi */
 .btn-primary {
-  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
   border: none;
   font-weight: 500;
   padding: 8px 16px;
@@ -472,6 +531,6 @@ export default {
   border-radius: 6px;
 }
 .btn-primary:hover {
-  background: #29b6f6;
+  background: #ffb300;
 }
 </style>

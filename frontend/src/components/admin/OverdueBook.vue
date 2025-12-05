@@ -355,74 +355,142 @@ Thư viện`;
   padding: 20px 0;
 }
 
+/* Card */
 .card {
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ffe082;
+  box-shadow: 0 3px 8px rgba(255, 179, 0, 0.15);
   transition: all 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgba(255, 179, 0, 0.25);
 }
 
+/* Table */
 .table {
   font-size: 0.95rem;
   border-collapse: collapse;
 }
+
 .table thead th {
-  background-color: #e1f5fe;
-  color: #0277bd;
+  background-color: #ffe082; /* vàng nhạt */
+  color: #8d6e00; /* chữ vàng đậm */
   font-weight: 600;
   vertical-align: middle;
   padding: 12px;
-}
-.table-striped > tbody > tr:nth-child(odd) {
-  background-color: #f8fbfc;
-}
-.btn-sm {
-  padding: 4px 8px;
-  font-size: 0.875rem;
+  border-bottom: 2px solid #ffb300;
 }
 
+.table-striped > tbody > tr:nth-child(odd) {
+  background-color: #fffde7; /* vàng rất nhạt */
+}
+
+.table-striped > tbody > tr:hover {
+  background-color: #fff9c4; /* hover vàng highlight */
+}
+
+/* Badge trạng thái quá hạn */
 .badge {
   font-size: 0.875em;
-  padding: 0.5em 0.75em;
+  padding: 0.45em 0.75em;
+  border-radius: 6px;
 }
 
+/* Badge màu theo mức độ */
+.badge-danger {
+  background-color: #ffccd2;
+  color: #b71c1c;
+}
+.badge-warning {
+  background-color: #ffecb3;
+  color: #8d6e00;
+}
+.badge-info {
+  background-color: #ffe082;
+  color: #8d6e00;
+}
+
+/* Typography */
 .text-danger {
-  color: #dc3545 !important;
+  color: #d32f2f !important;
 }
 
 .text-warning {
-  color: #ffc107 !important;
+  color: #ffb300 !important;
+  font-weight: 600;
 }
 
 .text-info {
-  color: #17a2b8 !important;
+  color: #8d6e00 !important;
 }
 
 .fw-bold {
   font-weight: 700 !important;
 }
 
+/* Button (small) */
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: none;
+}
+
+/* Confirm button */
+.btn-primary {
+  background-color: #ffb300;
+  border-color: #ffb300;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #ffa000;
+  border-color: #ffa000;
+}
+
+/* Cancel button */
+.btn-secondary {
+  background-color: #fff8e1;
+  border: 1px solid #ffecb3;
+  color: #8d6e00;
+}
+
+.btn-secondary:hover {
+  background-color: #ffe082;
+  color: #8d6e00;
+  border-color: #ffb300;
+}
+
+/* Modal */
 .modal-content {
   border-radius: 12px;
   border: none;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px rgba(255, 179, 0, 0.15);
+  border-top: 4px solid #ffb300;
 }
 
 .modal-header {
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #ffecb3;
   padding: 20px 24px 16px;
 }
 
 .modal-body {
   padding: 20px 24px;
+  color: #5d4037;
 }
 
 .modal-footer {
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid #ffecb3;
   padding: 16px 24px 20px;
+}
+
+/* Highlight overdue days */
+.overdue-days {
+  font-size: 0.9rem;
+  color: #bf360c;
+  font-weight: bold;
 }
 </style>

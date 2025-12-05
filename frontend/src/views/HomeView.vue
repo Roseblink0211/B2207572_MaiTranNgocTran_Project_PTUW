@@ -49,9 +49,10 @@ export default {
 * {
   box-sizing: border-box;
 }
+
 .home-background {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 50%, #81d4fa 100%);
+  background: linear-gradient(135deg, #fffde7 0%, #ffe082 50%, #ffca28 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -61,63 +62,78 @@ export default {
   position: relative;
   overflow: hidden;
 }
+
+/* Container trắng ở giữa */
 .home-container {
   display: flex;
   width: 100%;
   max-width: 1200px;
   min-height: 600px;
-  background: white;
+  background: #ffffff;
   border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 123, 191, 0.15);
+  box-shadow: 0 20px 60px rgba(255, 179, 0, 0.22);
   overflow: hidden;
   position: relative;
   z-index: 2;
 }
+
+/* Cột trái */
 .home-left {
   flex: 1;
   padding: 50px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #fffdf5 100%);
 }
+
 .home-content {
   max-width: 500px;
 }
+
 .home-title {
   margin-bottom: 30px;
 }
+
+/* Tiêu đề chính */
 .home-title h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1a237e;
   margin-bottom: 15px;
   line-height: 1.2;
-  background: linear-gradient(135deg, #1a237e 0%, #3f51b5 100%);
+  background: linear-gradient(135deg, #8d6e00 0%, #ffb300 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* Sub title */
 .home-subtitle {
   font-size: 1.2rem;
-  color: #546e7a;
+  color: #6d4c41;
   font-weight: 400;
   margin: 0;
 }
+
+/* Mô tả */
 .home-description {
   margin-bottom: 35px;
 }
 .home-description p {
   font-size: 1rem;
-  color: #607d8b;
+  color: #5d4037;
   line-height: 1.6;
   margin: 0;
 }
+
+/* Action buttons */
 .home-actions {
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
 }
+
+/* Button base */
 .btn-primary,
 .btn-secondary {
   display: inline-flex;
@@ -131,26 +147,35 @@ export default {
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
-  color: white;
+}
+
+/* Primary: vàng gradient */
+.btn-primary {
+  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+  color: #5d4037;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  color: white;
+  background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
+  color: #ffffff;
 }
+
+/* Secondary: viền vàng */
 .btn-secondary {
   background: transparent;
-  color: #4fc3f7;
-  border: 2px solid #4fc3f7;
+  color: #ffb300;
+  border: 2px solid #ffb300;
 }
 .btn-secondary:hover {
-  background: #4fc3f7;
-  color: white;
+  background: #ffb300;
+  color: #ffffff;
   transform: translateY(-2px);
 }
+
+/* Cột phải */
 .home-right {
   flex: 1;
-  background: linear-gradient(135deg, #81d4fa 0%, #4fc3f7 100%);
+  background: linear-gradient(135deg, #ffca28 0%, #ffb300 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,6 +183,8 @@ export default {
   position: relative;
   overflow: hidden;
 }
+
+/* Ảnh minh họa */
 .image-wrapper {
   max-width: 85%;
   z-index: 2;
@@ -167,6 +194,6 @@ export default {
   width: 100%;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 10px 30px rgba(255, 179, 0, 0.35));
 }
 </style>

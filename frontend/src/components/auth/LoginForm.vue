@@ -1,13 +1,6 @@
 <template>
   <div class="login-background">
     <div class="login-box">
-      <!-- Hình ảnh. -->
-      <div class="login-left">
-        <div class="image-wrapper">
-          <img src="../../assets/Library-amico.png" class="login-image" />
-        </div>
-      </div>
-
       <!-- Form đăng nhập -->
       <div class="login-right">
         <LoadingSpinner :show="loading" />
@@ -269,9 +262,10 @@ export default {
   box-sizing: border-box;
 }
 
+/* Nền ngoài cùng */
 .login-background {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+  background: linear-gradient(135deg, #fffde7 0%, #ffe082 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -279,39 +273,26 @@ export default {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Hộp login chính – chỉ còn 1 card form */
 .login-box {
-  display: flex;
   width: 100%;
-  max-width: 1200px;
-  height: 650px;
+  max-width: 480px;
   background: white;
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 123, 191, 0.1);
+  box-shadow: 0 10px 30px rgba(255, 179, 0, 0.2);
+  padding: 25px 35px;
   overflow: hidden;
 }
 
+/* login-left không dùng nữa – nếu còn trong DOM thì ẩn luôn */
 .login-left {
-  flex: 1;
-  background: linear-gradient(135deg, #81d4fa 0%, #4fc3f7 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
+  display: none !important;
 }
 
-.image-wrapper {
-  max-width: 80%;
-}
-
-.login-image {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-}
-
+/* Cột (container) form đăng nhập */
 .login-right {
-  flex: 1;
-  padding: 25px 35px;
+  width: 100%;
+  padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -319,6 +300,7 @@ export default {
   position: relative;
 }
 
+/* Tiêu đề login */
 .login-title {
   text-align: center;
   margin-bottom: 20px;
@@ -327,31 +309,32 @@ export default {
 .login-title h1 {
   font-size: 1.8rem;
   font-weight: 600;
-  color: #37474f;
+  color: #8d6e00;
   margin-bottom: 8px;
 }
 
 .login-title p {
   font-size: 0.95rem;
-  color: #78909c;
+  color: #6d4c41;
   font-weight: 400;
   margin-bottom: 5px;
 }
 
+/* Tabs chọn loại người dùng */
 .user-type-tabs {
   display: flex;
   margin-bottom: 20px;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid #cfd8dc;
+  border: 1px solid #ffe082;
 }
 
 .tab-button {
   flex: 1;
   padding: 10px 16px;
   border: none;
-  background: #f5f5f5;
-  color: #546e7a;
+  background: #fff8e1;
+  color: #6d4c41;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
@@ -359,14 +342,15 @@ export default {
 }
 
 .tab-button.active {
-  background: #4fc3f7;
+  background: #ffb300;
   color: white;
 }
 
 .tab-button:hover:not(.active) {
-  background: #e0e0e0;
+  background: #ffecb3;
 }
 
+/* Form login */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -381,7 +365,7 @@ export default {
 .form-group label {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #546e7a;
+  color: #6d4c41;
   margin-bottom: 4px;
 }
 
@@ -389,21 +373,22 @@ export default {
   color: #f44336;
 }
 
+/* Input */
 .form-control {
   padding: 10px 12px;
-  border: 1px solid #cfd8dc;
+  border: 1px solid #ffecb3;
   border-radius: 8px;
   font-size: 0.9rem;
-  transition: border-color 0.2s ease;
-  background: #fafafa;
-  color: #37474f;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  background: #fffdf5;
+  color: #5d4037;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #4fc3f7;
+  border-color: #ffb300;
   background: white;
-  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.1);
+  box-shadow: 0 0 0 2px rgba(255, 179, 0, 0.25);
 }
 
 .form-control.is-invalid {
@@ -412,9 +397,10 @@ export default {
 }
 
 .form-control::placeholder {
-  color: #a0aec0;
+  color: #b0b0b0;
 }
 
+/* Password input + eye icon */
 .password-group {
   position: relative;
 }
@@ -430,23 +416,25 @@ export default {
   transform: translateY(-50%);
   border: none;
   background: transparent;
-  color: #78909c;
+  color: #9e9e9e;
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .password-toggle:hover {
-  color: #4fc3f7;
+  color: #ffb300;
 }
 
+/* Lỗi */
 .error-message {
   font-size: 0.8rem;
   color: #f44336;
   margin-top: 4px;
 }
 
+/* Alert lỗi chung */
 .alert {
   padding: 15px 20px;
   border-radius: 10px;
@@ -474,9 +462,10 @@ export default {
   font-weight: bold;
 }
 
+/* Nút đăng nhập */
 .btn-login {
-  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
-  color: white;
+  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+  color: #5d4037;
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -485,13 +474,15 @@ export default {
   cursor: pointer;
   transition: all 0.2s ease;
   margin-top: 8px;
-  box-shadow: 0 2px 8px rgba(79, 195, 247, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 179, 0, 0.4);
   width: 100%;
 }
 
 .btn-login:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 179, 0, 0.55);
+  background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
+  color: #ffffff;
 }
 
 .btn-login:active {
@@ -503,20 +494,21 @@ export default {
   cursor: not-allowed;
 }
 
+/* Link đăng ký */
 .register-link {
   text-align: center;
   margin-top: 20px;
-  color: #78909c;
+  color: #6d4c41;
   font-size: 0.95rem;
 }
 
 .register-link a {
-  color: #4fc3f7;
+  color: #ffb300;
   font-weight: 600;
   text-decoration: none;
 }
 
 .register-link a:hover {
-  color: #29b6f6;
+  color: #ffa000;
 }
 </style>

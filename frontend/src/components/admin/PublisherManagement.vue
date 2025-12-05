@@ -1,79 +1,100 @@
 <template>
-  <div class="publisher-management">
+  <div class="publisher-management app-page">
     <LoadingSpinner :show="loading" />
 
-    <!-- Header section -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2>Quản lý nhà xuất bản</h2>
-      <button class="btn btn-primary" @click="showAddModal = true">
-        <i class="fas fa-plus"></i> Thêm nhà xuất bản mới
-      </button>
-    </div>
-
-    <!-- Error Alert -->
-    <div
-      v-if="error"
-      class="alert alert-danger alert-dismissible fade show"
-      role="alert"
-    >
-      {{ error }}
-      <button type="button" class="btn-close" @click="clearError"></button>
-    </div>
-
-    <div class="row mb-4">
-      <div class="col-md-6">
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            v-model="searchTerm"
-            placeholder="Tìm kiếm theo mã NXB hoặc tên NXB"
-          />
-          <span class="input-group-text">
-            <i class="fas fa-search"></i>
-          </span>
+    <div class="app-card">
+      <!-- HEADER TRANG -->
+      <div class="section-header">
+        <div>
+          <h2 class="page-title">Quản lý nhà xuất bản</h2>
+          <p class="page-subtitle">
+            Quản lý thông tin các nhà xuất bản, phục vụ cho việc nhập và tra cứu
+            sách.
+          </p>
         </div>
+
+        <div class="section-header-actions">
+          <!-- Ô tìm kiếm -->
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">
+              <i class="fas fa-search"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              v-model="searchTerm"
+              placeholder="Tìm theo mã NXB hoặc tên NXB..."
+            />
+          </div>
+
+          <!-- Nút thêm NXB -->
+          <button
+            class="btn btn-primary btn-sm ms-2"
+            @click="showAddModal = true"
+          >
+            <i class="fas fa-plus-circle me-1"></i>
+            Thêm nhà xuất bản
+          </button>
+        </div>
+      </div>
+
+      <!-- THÔNG BÁO LỖI CHUNG -->
+      <div
+        v-if="error"
+        class="alert alert-danger alert-dismissible fade show mb-3"
+        role="alert"
+      >
+        {{ error }}
+        <button type="button" class="btn-close" @click="clearError"></button>
+      </div>
+
+      <!-- BẢNG DANH SÁCH NXB -->
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Mã NXB</th>
+              <th>Tên NXB</th>
+              <th>Địa chỉ</th>
+              <th>Số sách đã xuất bản</th>
+              <th class="text-center">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="publisher in publishers" :key="publisher._id">
+              <td>{{ publisher.maNXB }}</td>
+              <td>{{ publisher.tenNXB }}</td>
+              <td>{{ publisher.diaChi || "-" }}</td>
+              <td>{{ getPublisherBookCount(publisher._id) }}</td>
+              <td class="text-center">
+                <button
+                  class="action-btn edit me-1"
+                  title="Sửa NXB"
+                  @click="editPublisher(publisher)"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="action-btn delete"
+                  title="Xóa NXB"
+                  @click="confirmDelete(publisher)"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+
+            <tr v-if="!publishers.length">
+              <td colspan="5" class="text-center text-muted py-4">
+                Không có nhà xuất bản nào phù hợp với từ khóa tìm kiếm.
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- Danh sách nhà xuất bản -->
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Mã NXB</th>
-            <th>Tên NXB</th>
-            <th>Địa chỉ</th>
-            <th>Số sách đã xuất bản</th>
-            <th>Thao tác</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="publisher in publishers" :key="publisher._id">
-            <td>{{ publisher.maNXB }}</td>
-            <td>{{ publisher.tenNXB }}</td>
-            <td>{{ publisher.diaChi }}</td>
-            <td>{{ getPublisherBookCount(publisher._id) }}</td>
-            <td>
-              <button
-                class="btn btn-sm btn-info me-2"
-                @click="editPublisher(publisher)"
-              >
-                <i class="fas fa-edit"></i>
-              </button>
-              <button
-                class="btn btn-sm btn-danger"
-                @click="confirmDelete(publisher)"
-              >
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Modal thêm/sửa nhà xuất bản -->
+    <!-- MODAL THÊM / SỬA NXB -->
     <div class="modal" tabindex="-1" :class="{ 'd-block': showAddModal }">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -91,12 +112,13 @@
               @click="closeModal"
             ></button>
           </div>
+
           <div class="modal-body">
             <form @submit.prevent="handleSubmit" novalidate>
               <div class="mb-3">
-                <label class="form-label"
-                  >Mã NXB <span class="text-danger">*</span></label
-                >
+                <label class="form-label">
+                  Mã NXB <span class="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -110,9 +132,9 @@
               </div>
 
               <div class="mb-3">
-                <label class="form-label"
-                  >Tên NXB <span class="text-danger">*</span></label
-                >
+                <label class="form-label">
+                  Tên NXB <span class="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -126,9 +148,9 @@
               </div>
 
               <div class="mb-3">
-                <label class="form-label"
-                  >Địa chỉ <span class="text-danger">*</span></label
-                >
+                <label class="form-label">
+                  Địa chỉ <span class="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -144,7 +166,7 @@
               <div class="text-end">
                 <button
                   type="button"
-                  class="btn btn-secondary me-2"
+                  class="btn btn-outline-secondary me-2"
                   @click="closeModal"
                 >
                   Hủy
@@ -168,7 +190,8 @@
         </div>
       </div>
     </div>
-    <!-- Modal Xác nhận xóa -->
+
+    <!-- MODAL XÁC NHẬN XÓA -->
     <div class="modal" tabindex="-1" :class="{ 'd-block': showDeleteModal }">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -182,16 +205,15 @@
           </div>
           <div class="modal-body">
             <p>
-              Bạn có chắc chắn muốn xóa nhà xuất bản "<strong>{{
-                selectedPublisher?.tenNXB
-              }}</strong
-              >" không?
+              Bạn có chắc chắn muốn xóa nhà xuất bản
+              <strong>"{{ selectedPublisher?.tenNXB }}"</strong>
+              không?
             </p>
           </div>
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-outline-secondary"
               @click="closeDeleteModal"
             >
               Hủy
@@ -208,12 +230,15 @@
         </div>
       </div>
     </div>
+
+    <!-- BACKDROP CHO CẢ HAI MODAL -->
     <div class="modal-backdrop fade show" v-if="showAddModal"></div>
+    <div class="modal-backdrop fade show" v-if="showDeleteModal"></div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { validatePublisherForm } from "@/utils/validation";
@@ -224,25 +249,56 @@ export default {
   components: { LoadingSpinner },
   setup() {
     const store = useStore();
+    const { proxy } = getCurrentInstance(); // dùng proxy.$toast
+
     const showAddModal = ref(false);
     const editingPublisher = ref(null);
     const searchTerm = ref("");
     const showDeleteModal = ref(false);
     const selectedPublisher = ref(null);
+
     const publisherForm = ref({
       maNXB: "",
       tenNXB: "",
       diaChi: "",
     });
+
     const errors = ref({});
 
-    const publishers = computed(() => store.getters["publisher/allPublishers"]);
+    const publishersAll = computed(
+      () => store.getters["publisher/allPublishers"]
+    );
     const loading = computed(() => store.getters["publisher/isLoading"]);
     const error = computed(() => store.getters["publisher/error"]);
+    const allBooks = computed(() => store.getters["book/allBooks"]);
 
-    const fetchPublishers = async () => {
-      await store.dispatch("publisher/fetchPublishers");
+    // Lọc theo search
+    const publishers = computed(() => {
+      if (!searchTerm.value) return publishersAll.value;
+      const search = searchTerm.value.toLowerCase().trim();
+      return publishersAll.value.filter(
+        (pub) =>
+          pub.maNXB.toLowerCase().includes(search) ||
+          pub.tenNXB.toLowerCase().includes(search)
+      );
+    });
+
+    const getPublisherBookCount = (publisherId) => {
+      return allBooks.value.filter((book) => book.maNXB?._id === publisherId)
+        .length;
     };
+
+    const fetchData = async () => {
+      try {
+        await Promise.all([
+          store.dispatch("publisher/fetchPublishers"),
+          store.dispatch("book/fetchBooks"),
+        ]);
+      } catch (err) {
+        showError("Lỗi khi tải dữ liệu: " + (err.message || ""));
+      }
+    };
+
     const confirmDelete = (publisher) => {
       selectedPublisher.value = publisher;
       showDeleteModal.value = true;
@@ -259,13 +315,14 @@ export default {
           "publisher/deletePublisher",
           selectedPublisher.value._id
         );
-        await fetchPublishers();
+        await fetchData();
         closeDeleteModal();
-        proxy.$toast.show("Xóa nhà xuất bản thành công", "success");
-      } catch (error) {
-        showError(error);
+        proxy.$toast?.show("Xóa nhà xuất bản thành công", "success");
+      } catch (err) {
+        showError("Lỗi khi xóa nhà xuất bản: " + (err.message || ""));
       }
     };
+
     const closeModal = () => {
       showAddModal.value = false;
       editingPublisher.value = null;
@@ -276,37 +333,15 @@ export default {
       };
       errors.value = {};
     };
-    const allBooks = computed(() => store.getters["book/allBooks"]);
 
-    const getPublisherBookCount = (publisherId) => {
-      return allBooks.value.filter((book) => book.maNXB?._id === publisherId)
-        .length;
-    };
-
-    const filteredPublishers = computed(() => {
-      if (!searchTerm.value) return publishers.value;
-
-      const search = searchTerm.value.toLowerCase().trim();
-      return publishers.value.filter(
-        (pub) =>
-          pub.maNXB.toLowerCase().includes(search) ||
-          pub.tenNXB.toLowerCase().includes(search)
-      );
-    });
-
-    const fetchData = async () => {
-      try {
-        await Promise.all([
-          store.dispatch("publisher/fetchPublishers"),
-          store.dispatch("book/fetchBooks"),
-        ]);
-      } catch (error) {
-        showError(error);
-      }
-    };
     const editPublisher = (publisher) => {
       editingPublisher.value = publisher;
-      publisherForm.value = { ...publisher };
+      publisherForm.value = {
+        maNXB: publisher.maNXB || "",
+        tenNXB: publisher.tenNXB || "",
+        diaChi: publisher.diaChi || "",
+      };
+      errors.value = {};
       showAddModal.value = true;
     };
 
@@ -325,16 +360,19 @@ export default {
             id: editingPublisher.value._id,
             publisherData: publisherForm.value,
           });
+          proxy.$toast?.show("Cập nhật nhà xuất bản thành công", "success");
         } else {
           await store.dispatch(
             "publisher/createPublisher",
             publisherForm.value
           );
+          proxy.$toast?.show("Thêm nhà xuất bản thành công", "success");
         }
-        await fetchPublishers();
+
+        await fetchData();
         closeModal();
-      } catch (error) {
-        showError(error);
+      } catch (err) {
+        showError("Lỗi khi lưu nhà xuất bản: " + (err.message || ""));
       }
     };
 
@@ -342,16 +380,16 @@ export default {
       store.commit("publisher/SET_ERROR", null);
     };
 
-    onMounted(fetchPublishers);
+    onMounted(fetchData);
 
     return {
       showAddModal,
       editingPublisher,
       publisherForm,
       errors,
-      loading: computed(() => store.getters["publisher/isLoading"]),
-      error: computed(() => store.getters["publisher/error"]),
-      publishers: filteredPublishers,
+      loading,
+      error,
+      publishers,
       searchTerm,
       closeModal,
       editPublisher,
@@ -369,86 +407,42 @@ export default {
 </script>
 
 <style scoped>
-.modal {
-  background-color: rgba(0, 0, 0, 0.5);
+.publisher-management {
+  margin-top: 8px;
 }
 
-.modal-content {
-  border-radius: 8px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-}
-
-.input-group {
-  max-width: 400px;
-}
-
-.input-group-text {
-  background-color: #ffffff;
-  border-left: none;
-  border-radius: 0 6px 6px 0;
-  color: #4fc3f7;
-}
-
-.form-control {
-  border-right: none;
-  border-radius: 6px 0 0 6px;
-  font-size: 0.95rem;
-}
-
-.form-control:focus {
-  border-color: #4fc3f7;
-  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.1);
-  outline: none;
-}
-
-.form-control:focus + .input-group-text {
-  border-color: #4fc3f7;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+/* nút thao tác trong bảng */
+.action-btn {
   border: none;
-  font-weight: 500;
-  padding: 8px 16px;
-  transition: all 0.2s ease;
+  background: transparent;
+  padding: 4px 8px;
   border-radius: 6px;
+  cursor: pointer;
+  transition: 0.15s ease;
 }
 
-.btn-primary:hover {
-  background: #29b6f6;
+.action-btn.edit {
+  color: #0369a1;
+}
+.action-btn.edit:hover {
+  background: #e0f2fe;
 }
 
-.btn-sm {
-  border-radius: 4px;
+.action-btn.delete {
+  color: #b91c1c;
+}
+.action-btn.delete:hover {
+  background: #fee2e2;
 }
 
-/* Table style */
-.table {
-  font-size: 0.95rem;
-  border-collapse: collapse;
+/* modal overlay */
+.modal {
+  background-color: rgba(0, 0, 0, 0.35);
 }
 
-.table thead th {
-  background-color: #e1f5fe;
-  color: #0277bd;
-  font-weight: 600;
-  vertical-align: middle;
-}
-
-.table-striped > tbody > tr:nth-child(odd) {
-  background-color: #f8fbfc;
-}
-
-/* Label */
-.form-label {
-  font-weight: 500;
-  color: #37474f;
-}
-
-/* Alert & Modal titles */
-h2,
-.modal-title {
-  color: #37474f;
-  font-weight: 600;
+/* text phụ */
+.text-muted {
+  font-size: 0.85em;
+  font-style: italic;
 }
 </style>

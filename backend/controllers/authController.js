@@ -30,7 +30,8 @@ const loginStaff = async (req, res) => {
 
     console.log(`Đăng nhập thành công: ${nhanvien.MSNV}`);
   } catch (error) {
-    res.status(400).send(error);
+    console.error("loginStaff error:", error);
+    res.status(400).send({ error: "Lỗi server" });
   }
 };
 

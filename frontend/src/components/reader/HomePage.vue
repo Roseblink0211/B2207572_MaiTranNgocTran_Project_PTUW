@@ -133,34 +133,40 @@ export default {
 .card {
   background: white;
   border-radius: 12px;
-  border: 1px solid #b3e5fc;
-  box-shadow: 0 4px 12px rgba(79, 195, 247, 0.06);
+  border: 1px solid #ffe082; /* vàng nhạt */
+  box-shadow: 0 4px 12px rgba(255, 179, 0, 0.06); /* ánh vàng nhẹ */
   transition: all 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(79, 195, 247, 0.25);
+  box-shadow: 0 8px 20px rgba(255, 179, 0, 0.25); /* hover vàng đậm */
 }
 
+/* Title trong card */
 .card-title {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 8px;
+  color: #8d6e00; /* vàng đậm Material */
 }
 
+/* Sub text */
 .card-text {
   font-size: 1rem;
-  color: #78909c;
+  color: #6d4c41; /* nâu ấm, dễ đọc hơn #78909c */
 }
 
+/* Card trong khu vực Guide */
 .guide-section .card-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1976d2;
+  color: #ffb300; /* vàng tươi */
 }
 
+/* Icon */
 .guide-section .fas {
   margin-right: 8px;
+  color: #ffb300; /* icon vàng */
 }
 </style>

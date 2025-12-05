@@ -1,0 +1,379 @@
+/* ============================
+   DESIGN SYSTEM VÀNG TƯƠI – CTU STYLE
+   Import file này trong main.js là dùng chung toàn dự án
+   ============================ */
+
+:root {
+  /* Palette vàng */
+  --yellow-soft: #fffde7; /* nền rất nhạt */
+  --yellow-light: #ffe082; /* header table, highlight nhẹ */
+  --yellow-main: #ffb300; /* màu chính button, navbar */
+  --yellow-strong: #ffa000; /* hover, nhấn */
+
+  /* Text & border */
+  --brown-dark: #4b3b00;
+  --brown-text: #5f4a00;
+
+  --gray-text: #4b5563;
+  --gray-muted: #9ca3af;
+  --border-soft: #ffe4a3;
+}
+
+/* Nền chung & font */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Inter",
+    sans-serif;
+  background-color: var(--yellow-soft);
+  color: var(--gray-text);
+}
+
+/* Link mặc định */
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ============================
+   NAVBAR ĐỘC GIẢ / ADMIN
+   ============================ */
+
+.navbar {
+  background-color: var(--yellow-main) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #ffffff !important;
+}
+
+.navbar-nav .nav-link {
+  color: #fff8e1 !important;
+  font-weight: 500;
+  font-size: 0.98rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ffffff !important;
+}
+
+.navbar-nav .nav-link.active {
+  font-weight: 700;
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 2px;
+}
+
+.navbar-text,
+.navbar-right .nav-link {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+/* ============================
+   FOOTER ĐỘC GIẢ
+   ============================ */
+
+.site-footer,
+.footer,
+footer {
+  background-color: #fff8e1;
+  border-top: 1px solid #ffecb3;
+  padding: 30px 0 18px;
+  color: var(--gray-text);
+  font-size: 0.95rem;
+}
+
+.site-footer h5,
+.footer h5,
+footer h5 {
+  color: #1976d2; /* nếu muốn vàng đậm thì đổi thành var(--brown-text) */
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.site-footer a,
+.footer a,
+footer a {
+  color: #1565c0;
+}
+
+.site-footer a:hover,
+.footer a:hover,
+footer a:hover {
+  color: #0d47a1;
+}
+
+/* Icon mạng xã hội (nếu dùng class .social-icon) */
+.social-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  background-color: var(--yellow-main);
+  color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 179, 0, 0.55);
+}
+
+/* ============================
+   CONTAINER & CARD CHUNG
+   ============================ */
+
+.app-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  padding: 18px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+/* Tiêu đề trang */
+.page-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--brown-dark);
+  margin-bottom: 0.35rem;
+}
+
+.page-subtitle {
+  font-size: 0.9rem;
+  color: var(--gray-muted);
+  margin-bottom: 1rem;
+}
+
+/* ============================
+   BUTTON – override Bootstrap
+   ============================ */
+
+.btn-primary {
+  background-color: var(--yellow-main) !important;
+  border-color: var(--yellow-main) !important;
+  color: var(--brown-dark) !important;
+  font-weight: 600;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--yellow-strong) !important;
+  border-color: var(--yellow-strong) !important;
+  color: var(--brown-dark) !important;
+}
+
+.btn-outline-primary {
+  border-color: var(--yellow-main) !important;
+  color: var(--brown-text) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: var(--yellow-main) !important;
+  color: var(--brown-dark) !important;
+}
+
+/* ============================
+   FORM – input, select
+   ============================ */
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--yellow-main) !important;
+  box-shadow: 0 0 0 0.15rem rgba(255, 214, 102, 0.35) !important;
+}
+
+.form-label {
+  font-weight: 500;
+  color: var(--brown-text);
+}
+
+/* ============================
+   TABLE – tông vàng
+   ============================ */
+
+.table thead th {
+  background-color: var(--yellow-light);
+  border-bottom: 2px solid var(--border-soft);
+  color: var(--brown-dark);
+}
+
+.table tbody tr:hover {
+  background-color: #fffaf0;
+}
+
+/* ============================
+   BADGE TRẠNG THÁI
+   ============================ */
+
+.badge-status {
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+}
+
+.badge-status.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge-status.warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-status.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ============================
+   HEADER PHẦN CRUD
+   ============================ */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.section-header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ============================
+   FOOTER – CTU STYLE VÀNG TƯƠI
+   ============================ */
+
+footer,
+.site-footer,
+.footer {
+  background-color: var(--yellow-soft);
+  border-top: 1px solid var(--border-soft);
+  padding: 40px 0 25px;
+  color: var(--gray-text);
+  font-size: 0.95rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 18px;
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.footer-col {
+  flex: 1 1 280px;
+}
+
+.footer-title {
+  color: var(--brown-dark);
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.footer-text {
+  line-height: 1.55;
+  margin: 0;
+}
+
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-list li {
+  margin-bottom: 8px;
+}
+
+.footer-link {
+  color: #1565c0;
+  text-decoration: none;
+  transition: 0.15s ease;
+}
+
+.footer-link:hover {
+  color: #0d47a1;
+  text-decoration: underline;
+}
+
+/* Contact */
+.footer-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+}
+
+.footer-contact li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: var(--gray-text);
+  font-size: 0.92rem;
+}
+
+.footer-contact i {
+  color: var(--brown-text);
+  font-size: 1rem;
+}
+
+/* Social */
+.footer-social {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--yellow-main);
+  color: #ffffff;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(255, 179, 0, 0.45);
+}
+
+.footer-divider {
+  border: none;
+  border-top: 1px solid var(--border-soft);
+  margin: 28px auto;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.footer-copy {
+  text-align: center;
+  color: var(--brown-text);
+  font-size: 0.9rem;
+}

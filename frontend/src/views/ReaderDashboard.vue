@@ -115,7 +115,7 @@
             <li><i class="fas fa-phone me-2"></i> 0911608752</li>
             <li>
               <i class="fas fa-envelope me-2"></i>
-              hanb2207519@student.ctu.edu.vn
+              tranb2207572@student.ctu.edu.vn
             </li>
           </ul>
           <div class="social-links mt-3">

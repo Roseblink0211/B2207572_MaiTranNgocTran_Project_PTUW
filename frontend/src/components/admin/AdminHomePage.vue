@@ -406,39 +406,43 @@ export default {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Card base */
 .card {
   background: white;
   border-radius: 12px;
-  border: 1px solid #e3f2fd;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ffe082;
+  box-shadow: 0 4px 14px rgba(255, 179, 0, 0.1);
   transition: all 0.3s ease;
 }
 
+/* Hover nâng card */
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 28px rgba(255, 179, 0, 0.22);
 }
 
+/* Card border theo trạng thái */
 .card.border-warning {
   border-color: #ffc107 !important;
   border-width: 2px;
 }
 
 .card.border-danger {
-  border-color: #dc3545 !important;
+  border-color: #c62828 !important;
   border-width: 2px;
 }
 
 .card.border-success {
-  border-color: #198754 !important;
+  border-color: #2e7d32 !important;
   border-width: 2px;
 }
 
 .card.border-secondary {
-  border-color: #6c757d !important;
+  border-color: #8d6e00 !important;
   border-width: 2px;
 }
 
+/* Icon wrapper (ô icon số liệu stats) */
 .icon-wrapper {
   width: 48px;
   height: 48px;
@@ -447,85 +451,121 @@ export default {
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
+  color: #8d6e00;
+  background-color: #fff8e1;
 }
 
+/* Title số liệu chính */
 .card-title {
   font-size: 1.8rem;
   font-weight: 700;
   line-height: 1;
+  color: #8d6e00;
 }
 
+/* Subtitle text */
 .card-text {
   font-size: 0.95rem;
-  color: #6c757d;
+  color: #6d4c41;
   font-weight: 500;
 }
 
+/* Card header block */
 .card-header {
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  background-color: #fff8e1;
+  border-bottom: 1px solid #ffe082;
   padding: 16px 20px;
   border-radius: 12px 12px 0 0;
 }
 
 .card-header h5 {
-  color: #495057;
+  color: #8d6e00;
   font-weight: 600;
 }
 
+/* Progress bar (tiến độ) */
 .progress {
   height: 8px;
   border-radius: 4px;
-  background-color: #e9ecef;
+  background-color: #fff3cd;
 }
 
 .progress-bar {
   border-radius: 4px;
+  background-color: #ffb300;
 }
 
+/* Item thống kê nhỏ */
 .stat-item {
   font-size: 0.95rem;
+  color: #6d4c41;
 }
 
+/* Button */
 .btn {
   border-radius: 8px;
   font-weight: 500;
   transition: all 0.2s ease;
+  background-color: #ffe082;
+  border: 1px solid #ffb300;
+  color: #5d4037;
 }
 
 .btn:hover {
   transform: translateY(-2px);
+  background-color: #ffb300;
+  border-color: #ffa000;
+  color: white;
 }
 
+/* Alert */
 .alert {
   border-radius: 10px;
   font-size: 0.95rem;
   padding: 12px 16px;
+  color: #6d4c41;
 }
 
+.alert-warning {
+  background-color: #fff8e1;
+  border: 1px solid #ffe082;
+}
+
+.alert-success {
+  background-color: #e8f5e9;
+  border: 1px solid #81c784;
+  color: #2e7d32;
+}
+
+/* Heading */
 h2 {
   font-size: 1.75rem;
   font-weight: 600;
-  color: #343a40;
+  color: #8d6e00;
   margin-bottom: 30px;
 }
 
 h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #495057;
+  color: #6d4c41;
 }
 
+/* Line */
 hr {
   margin: 8px 0;
-  opacity: 0.3;
+  opacity: 0.25;
+  border-color: #ffe082;
 }
 
+/* small text */
 small {
   font-size: 0.8rem;
+  color: #6d4c41;
 }
 
 .fw-bold {
   font-weight: 600 !important;
+  color: #8d6e00;
 }
 </style>

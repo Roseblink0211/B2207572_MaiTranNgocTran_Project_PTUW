@@ -1,23 +1,41 @@
 // Import các hàm tạo router và lịch sử từ Vue Router
 import { createRouter, createWebHistory } from "vue-router";
 
-// Import các component dùng làm trang (views)
+// Import các view
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
-import AdminDashboard from "../views/AdminDashboard.vue";
 import ReaderDashboard from "../views/ReaderDashboard.vue";
 
-// .Import Vuex store để kiểm tra trạng thái đăng nhập và vai trò
+// Layout admin
+import AdminLayout from "@/layouts/AdminLayout.vue";
+
+// Import các component admin dùng trong nested routes
+import AdminHomePage from "@/components/admin/AdminHomePage.vue";
+import BookManagement from "@/components/admin/BookManagement.vue";
+import AuthorManagement from "@/components/admin/AuthorManagement.vue";
+import PublisherManagement from "@/components/admin/PublisherManagement.vue";
+import ReaderManagement from "@/components/admin/ReaderManagement.vue";
+import StaffManagement from "@/components/admin/StaffManagement.vue";
+import BorrowManagement from "@/components/admin/BorrowManagement.vue";
+import OverdueBook from "@/components/admin/OverdueBook.vue";
+
+// Import Vuex store để kiểm tra trạng thái đăng nhập và vai trò
 import store from "../store";
 
 // Khai báo các route (đường dẫn URL và component tương ứng)
 const routes = [
+  // Vào "/" thì tự redirect sang /login cho đỡ trắng
   {
-    path: "/", // Đường dẫn: /
-    name: "home", // Tên route
-    component: HomeView, // Component được hiển thị
-    meta: { guestOnly: true }, // Chỉ cho khách (người chưa đăng nhập) vào
+    path: "/",
+    redirect: "/login",
+  },
+
+  {
+    path: "/home",
+    name: "home",
+    component: HomeView,
+    meta: { guestOnly: true },
   },
   {
     path: "/login",
@@ -31,23 +49,40 @@ const routes = [
     component: RegisterView,
     meta: { guestOnly: true },
   },
+
+  // Khu vực ADMIN dùng layout AdminLayout + nested routes
   {
     path: "/admin",
-    name: "admin",
-    component: AdminDashboard,
-    meta: { requiresAuth: true, adminOnly: true }, // Phải đăng nhập và là admin
+    component: AdminLayout,
+    meta: { requiresAuth: true, adminOnly: true },
+    children: [
+      { path: "", name: "admin-home", component: AdminHomePage },
+      { path: "books", name: "admin-books", component: BookManagement },
+      { path: "authors", name: "admin-authors", component: AuthorManagement },
+      {
+        path: "publishers",
+        name: "admin-publishers",
+        component: PublisherManagement,
+      },
+      { path: "readers", name: "admin-readers", component: ReaderManagement },
+      { path: "borrows", name: "admin-borrows", component: BorrowManagement },
+      { path: "overdue", name: "admin-overdue", component: OverdueBook },
+      { path: "staffs", name: "admin-staffs", component: StaffManagement },
+    ],
   },
+
+  // Dashboard dành cho độc giả
   {
     path: "/reader",
     name: "reader",
     component: ReaderDashboard,
-    meta: { requiresAuth: true }, // Chỉ cần đăng nhập (bất kỳ người dùng nào)
+    meta: { requiresAuth: true }, // chỉ cần đăng nhập
   },
 ];
 
 // Tạo đối tượng router với lịch sử HTML5 và danh sách route
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL), // Sử dụng BASE_URL từ môi trường
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
@@ -57,7 +92,6 @@ const initializeAuth = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const userType = localStorage.getItem("userType");
 
-  // Nếu tồn tại token và user thì cập nhật store (Vuex)
   if (token && user) {
     store.commit("auth/SET_TOKEN", token);
     store.commit("auth/SET_USER", user);
@@ -65,30 +99,25 @@ const initializeAuth = () => {
   }
 };
 
-// Trước khi chuyển trang (navigation guard)
+// Navigation guard trước mỗi lần chuyển trang
 router.beforeEach((to, from, next) => {
-  initializeAuth(); // Cập nhật trạng thái auth trước mỗi route
+  initializeAuth();
 
-  const isAuthenticated = store.getters["auth/isAuthenticated"]; // Người dùng đã đăng nhập?
-  const isAdmin = store.getters["auth/isAdmin"]; // Là admin?
+  const isAuthenticated = store.getters["auth/isAuthenticated"];
+  const isAdmin = store.getters["auth/isAdmin"];
 
-  // Nếu route yêu cầu đăng nhập nhưng người dùng chưa đăng nhập → chuyển về login
   if (to.meta.requiresAuth && !isAuthenticated) {
+    // Chưa đăng nhập mà vào trang cần login
     next("/login");
-  }
-  // Nếu route chỉ dành cho admin mà người dùng không phải admin → chuyển về trang chủ
-  else if (to.meta.adminOnly && !isAdmin) {
+  } else if (to.meta.adminOnly && !isAdmin) {
+    // Không phải admin mà vào khu admin
     next("/");
-  }
-  // Nếu route chỉ cho khách (guest) nhưng người dùng đã đăng nhập → chuyển đến dashboard phù hợp
-  else if (to.meta.guestOnly && isAuthenticated) {
+  } else if (to.meta.guestOnly && isAuthenticated) {
+    // Đã login mà vào login/register/home → đẩy về dashboard phù hợp
     next(isAdmin ? "/admin" : "/reader");
-  }
-  // Ngược lại, cho phép tiếp tục điều hướng
-  else {
+  } else {
     next();
   }
 });
 
-// Xuất router để sử dụng trong main.js
 export default router;

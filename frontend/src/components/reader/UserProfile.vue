@@ -306,55 +306,74 @@ export default {
 </script>
 
 <style scoped>
+/* Card */
 .card {
   transition: transform 0.2s;
+  border: 1px solid #ffe082;
+  border-radius: 12px;
+  background-color: #fffdf5;
 }
 .card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(255, 179, 0, 0.25);
 }
+
+/* Modal overlay */
 .modal {
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+/* Table */
 .table {
   font-size: 0.95rem;
   border-collapse: collapse;
 }
 .table thead th {
-  background-color: #e1f5fe;
-  color: #0277bd;
+  background-color: #ffe082; /* vàng nhạt */
+  color: #8d6e00; /* vàng đậm */
   font-weight: 600;
   vertical-align: middle;
   padding: 12px;
+  border-bottom: 2px solid #ffb300;
 }
 .table-striped > tbody > tr:nth-child(odd) {
-  background-color: #f8fbfc;
+  background-color: #fffde7; /* rất nhạt */
 }
+.table-striped > tbody > tr:hover {
+  background-color: #fff9c4; /* hover highlight */
+}
+
+/* Input group */
 .input-group {
   max-width: 500px;
 }
 .input-group-text {
-  background-color: white;
+  background-color: #fff8e1;
   border-left: none;
-  color: #4fc3f7;
+  color: #8d6e00;
   border-radius: 0 6px 6px 0;
-  border: 1px solid #cfd8dc;
+  border: 1px solid #ffecb3;
   border-left: 0;
 }
+
+/* Input */
 .form-control {
   border-right: none;
   border-radius: 6px 0 0 6px;
   font-size: 0.95rem;
-  border: 1px solid #cfd8dc;
+  border: 1px solid #ffecb3;
   transition: border-color 0.2s ease;
 }
 .form-control:focus {
-  border-color: #4fc3f7;
-  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.1);
+  border-color: #ffb300;
+  box-shadow: 0 0 0 2px rgba(255, 179, 0, 0.2);
   outline: none;
 }
 .form-control:focus + .input-group-text {
-  border-color: #4fc3f7;
+  border-color: #ffb300;
 }
+
+/* Badge color */
 .badge {
   font-size: 0.85em;
   padding: 0.4em 0.6em;
@@ -362,98 +381,130 @@ export default {
   text-transform: capitalize;
 }
 .badge.bg-warning {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: #ffecb3;
+  color: #8d6e00;
 }
 .badge.bg-success {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #e8f5e9;
+  color: #2e7d32;
 }
 .badge.bg-danger {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: #ffebee;
+  color: #c62828;
 }
 .badge.bg-info {
-  background-color: #d1ecf1;
-  color: #0c5460;
+  background-color: #fff9c4;
+  color: #6d4c41;
 }
 .badge.bg-secondary {
   background-color: #eceff1;
   color: #546e7a;
 }
+
+/* Text */
 .text-danger {
   font-weight: bold;
-  color: #dc3545 !important;
+  color: #c62828 !important;
 }
 .text-warning {
   font-weight: bold;
-  color: #ffc107 !important;
+  color: #ffb300 !important;
 }
 .text-success {
   font-weight: bold;
-  color: #198754 !important;
+  color: #2e7d32 !important;
 }
 .text-muted {
   font-size: 0.85em;
   font-style: italic;
-  color: #78909c;
+  color: #757575;
 }
+
+/* Button primary */
 .btn-primary {
-  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
   border: none;
   font-weight: 500;
   padding: 8px 16px;
   transition: all 0.2s ease;
   border-radius: 6px;
+  color: #5d4037;
 }
 .btn-primary:hover {
-  background: #29b6f6;
+  background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
+  color: white;
 }
+
+/* User Profile Container */
 .user-profile {
-  background-color: #f8f9fa;
+  background-color: #fffdf5;
   padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 10px rgba(255, 179, 0, 0.15);
   max-width: 700px;
   margin: auto;
+  border: 1px solid #ffe082;
 }
+
+/* Form Labels */
 .profile-details .form-label {
   font-weight: 500;
-  color: #37474f;
+  color: #6d4c41;
 }
+
+/* Form Inputs */
 .profile-details input,
 .profile-details select {
   font-size: 0.95rem;
   padding: 10px;
   border-radius: 6px;
-  border: 1px solid #cfd8dc;
+  border: 1px solid #ffecb3;
   transition: border-color 0.2s ease;
+  background: white;
 }
+
+/* Focus Form */
 .profile-details input:focus,
 .profile-details select:focus {
-  border-color: #4fc3f7;
-  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.15);
+  border-color: #ffb300;
+  box-shadow: 0 0 0 2px rgba(255, 179, 0, 0.25);
   outline: none;
 }
+
+/* Required label icon */
 .profile-details .form-label .text-danger {
-  color: #dc3545;
+  color: #c62828;
 }
+
+/* Validation */
 .invalid-feedback {
   display: block;
   font-size: 0.85rem;
 }
+
+/* Alert */
 .alert-success {
   border-radius: 6px;
   font-size: 0.95rem;
+  background-color: #e8f5e9;
+  color: #2e7d32;
 }
+
+/* Secondary Button */
 .btn-secondary {
-  background-color: #cfd8dc;
-  border: none;
+  background-color: #fff8e1;
+  border: 1px solid #ffecb3;
   font-weight: 500;
   padding: 8px 16px;
   border-radius: 6px;
+  color: #8d6e00;
 }
 .btn-secondary:hover {
-  background-color: #b0bec5;
+  background-color: #ffe082;
+  border-color: #ffb300;
+  color: #5d4037;
+}
+.fw-bold {
+  font-weight: bold !important;
 }
 </style>

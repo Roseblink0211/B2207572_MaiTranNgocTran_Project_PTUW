@@ -221,17 +221,26 @@ export default {
 .input-group .form-control {
   border-radius: 6px 0 0 6px;
   font-size: 0.95rem;
+  border: 1px solid #ffd54f;
+}
+
+.input-group .form-control:focus {
+  border-color: #ffb300;
+  box-shadow: 0 0 0 2px rgba(255, 179, 0, 0.2);
 }
 
 .input-group .btn {
   border-radius: 0 6px 6px 0;
-  color: #4fc3f7;
-  border-color: #4fc3f7;
+  color: #8d6e00;
+  border-color: #ffb300;
+  background-color: #ffecb3;
+  font-weight: 500;
 }
 
 .input-group .btn:hover {
-  background-color: #4fc3f7;
+  background-color: #ffb300;
   color: white;
+  border-color: #ffb300;
 }
 
 /* Table */
@@ -239,57 +248,126 @@ export default {
   font-size: 0.95rem;
   border-collapse: collapse;
   margin-top: 1rem;
+  border: 1px solid #ffe082;
 }
 
 .table thead th {
-  background-color: #e1f5fe;
-  color: #0277bd;
+  background-color: #ffecb3; /* vàng nhạt */
+  color: #8d6e00; /* vàng đậm */
   font-weight: 600;
   vertical-align: middle;
 }
 
 .table-striped > tbody > tr:nth-child(odd) {
-  background-color: #f8fbfc;
+  background-color: #fffde7; /* vàng rất nhạt */
 }
 
-/* Nút thao tác */
+/* Nút thao tác size nhỏ */
 .btn-sm {
   border-radius: 4px;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  font-weight: 500;
 }
 
+/* Button duyệt – vàng tươi */
+.btn-success {
+  background-color: #ffb300 !important;
+  border-color: #ffb300 !important;
+  color: #fff !important;
+}
+
+.btn-success:hover {
+  background-color: #ffa000 !important;
+  border-color: #ffa000 !important;
+}
+
+/* Button từ chối – đỏ (giữ nguyên nhưng style đẹp hơn) */
 .btn-danger {
-  background-color: #ef5350;
-  border-color: #ef5350;
-  color: white;
+  background-color: #e53935 !important;
+  border-color: #e53935 !important;
+  color: white !important;
 }
 
 .btn-danger:hover {
-  background-color: #e53935;
-  border-color: #e53935;
+  background-color: #c62828 !important;
+  border-color: #c62828 !important;
 }
 
-/* Modal */
+/* Button đánh dấu trả sách – xanh nhẹ */
+.btn-info {
+  background-color: #ffecb3 !important;
+  border-color: #ffb300 !important;
+  color: #8d6e00 !important;
+}
+
+.btn-info:hover {
+  background-color: #ffd54f !important;
+  border-color: #ffb300 !important;
+  color: #5d4037 !important;
+}
+
+/* Modal overlay */
 .modal {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
   border-radius: 8px;
+  border-top: 4px solid #ffb300;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .modal-title {
   font-weight: 600;
+  color: #5d4037;
 }
 
 /* Alert lỗi */
 .alert {
   font-size: 0.95rem;
   border-left: 4px solid #f44336;
+  background-color: #ffebee;
+  color: #b71c1c;
 }
 
 /* Nút "X" của alert */
 .btn-close {
   padding: 0.5rem;
+}
+
+/* Badge trạng thái */
+.badge {
+  font-size: 0.85em;
+  padding: 0.4em 0.6em;
+  border-radius: 6px;
+  text-transform: capitalize;
+}
+
+/* Badge từng trạng thái */
+.badge.bg-warning {
+  background-color: #ffe082;
+  color: #8d6e00;
+}
+
+.badge.bg-success {
+  background-color: #ffecb3;
+  color: #8d6e00;
+  border: 1px solid #ffb300;
+}
+
+.badge.bg-danger {
+  background-color: #ffebee;
+  color: #b71c1c;
+}
+
+.badge.bg-info {
+  background-color: #fff9c4;
+  color: #6d4c41;
+}
+
+.badge.bg-secondary {
+  background-color: #eceff1;
+  color: #546e7a;
 }
 </style>

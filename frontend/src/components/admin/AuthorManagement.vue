@@ -1,79 +1,101 @@
 <template>
-  <div class="author-management">
+  <div class="author-management app-page">
     <LoadingSpinner :show="loading" />
-    <!-- Header section -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">Quản lý tác giả</h2>
-      <button class="btn btn-primary" @click="showAddModal = true">
-        <i class="fas fa-plus"></i>
-        Thêm tác giả
-      </button>
-    </div>
-    <!-- Error Alert -->
-    <div
-      v-if="error"
-      class="alert alert-danger alert-dismissible fade show"
-      role="alert"
-    >
-      {{ error }}
-      <button type="button" class="btn-close" @click="clearError"></button>
-    </div>
 
-    <div class="row mb-4">
-      <div class="col-md-6">
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            v-model="searchTerm"
-            placeholder="Tìm kiếm tác giả theo tên hoặc mã tác giả"
-          />
-          <span class="input-group-text">
-            <i class="fas fa-search"></i>
-          </span>
+    <div class="app-card">
+      <!-- HEADER TRANG -->
+      <div class="section-header">
+        <div>
+          <h2 class="page-title">Quản lý tác giả</h2>
+          <p class="page-subtitle">
+            Thêm, chỉnh sửa và quản lý danh sách tác giả của thư viện.
+          </p>
         </div>
+
+        <div class="section-header-actions">
+          <!-- Ô tìm kiếm -->
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">
+              <i class="fas fa-search"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control"
+              v-model="searchTerm"
+              placeholder="Tìm theo tên hoặc mã tác giả..."
+            />
+          </div>
+
+          <!-- Nút thêm tác giả -->
+          <button
+            class="btn btn-primary btn-sm ms-2"
+            @click="showAddModal = true"
+          >
+            <i class="fas fa-plus-circle me-1"></i>
+            Thêm tác giả
+          </button>
+        </div>
+      </div>
+
+      <!-- THÔNG BÁO LỖI CHUNG -->
+      <div
+        v-if="error"
+        class="alert alert-danger alert-dismissible fade show mb-3"
+        role="alert"
+      >
+        {{ error }}
+        <button type="button" class="btn-close" @click="clearError"></button>
+      </div>
+
+      <!-- BẢNG DANH SÁCH TÁC GIẢ -->
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Mã tác giả</th>
+              <th>Tên tác giả</th>
+              <th>Số điện thoại</th>
+              <th>Địa chỉ</th>
+              <th>Số sách đã xuất bản</th>
+              <th class="text-center">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="author in authors" :key="author._id">
+              <td>{{ author.maTacGia }}</td>
+              <td>{{ author.tenTacGia }}</td>
+              <td>{{ author.soDienThoai || "-" }}</td>
+              <td>{{ author.diaChi || "-" }}</td>
+              <td>{{ getAuthorBookCount(author._id) }}</td>
+              <td class="text-center">
+                <button
+                  class="action-btn edit me-1"
+                  title="Sửa tác giả"
+                  @click="editAuthor(author)"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="action-btn delete"
+                  title="Xóa tác giả"
+                  @click="confirmDelete(author)"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+
+            <tr v-if="!authors.length">
+              <td colspan="6" class="text-center text-muted py-4">
+                Không có tác giả nào phù hợp với từ khóa tìm kiếm.
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- Danh sách tác giả -->
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Mã tác giả</th>
-            <th>Tên tác giả</th>
-            <th>Số điện thoại</th>
-            <th>Địa chỉ</th>
-            <th>Số sách đã xuất bản</th>
-            <th>Thao tác</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="author in authors" :key="author._id">
-            <td>{{ author.maTacGia }}</td>
-            <td>{{ author.tenTacGia }}</td>
-            <td>{{ author.soDienThoai }}</td>
-            <td>{{ author.diaChi }}</td>
-            <td>{{ getAuthorBookCount(author._id) }}</td>
-            <td>
-              <button
-                class="btn btn-sm btn-info me-2"
-                @click="editAuthor(author)"
-              >
-                <i class="fas fa-edit"></i>
-              </button>
-              <button
-                class="btn btn-sm btn-danger"
-                @click="confirmDelete(author)"
-              >
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- Modal thêm/sửa tác giả -->
+    <!-- MODAL THÊM / SỬA TÁC GIẢ -->
     <div class="modal" tabindex="-1" :class="{ 'd-block': showAddModal }">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -87,12 +109,13 @@
               @click="closeModal"
             ></button>
           </div>
+
           <div class="modal-body">
             <form @submit.prevent="handleSubmit" novalidate>
               <div class="mb-3">
-                <label for="maTacGia" class="form-label"
-                  >Mã tác giả <span class="text-danger">*</span></label
-                >
+                <label class="form-label">
+                  Mã tác giả <span class="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -104,10 +127,11 @@
                   {{ errors.maTacGia }}
                 </div>
               </div>
+
               <div class="mb-3">
-                <label for="tenTacGia" class="form-label"
-                  >Tên tác giả <span class="text-danger">*</span></label
-                >
+                <label class="form-label">
+                  Tên tác giả <span class="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -119,6 +143,7 @@
                   {{ errors.tenTacGia }}
                 </div>
               </div>
+
               <div class="mb-3">
                 <label class="form-label">Số điện thoại</label>
                 <input
@@ -127,18 +152,20 @@
                   v-model="AuthorForm.soDienThoai"
                 />
               </div>
+
               <div class="mb-3">
-                <label for="diaChi" class="form-label">Địa chỉ</label>
+                <label class="form-label">Địa chỉ</label>
                 <input
                   type="text"
                   class="form-control"
                   v-model="AuthorForm.diaChi"
                 />
               </div>
+
               <div class="text-end">
                 <button
                   type="button"
-                  class="btn btn-secondary me-2"
+                  class="btn btn-outline-secondary me-2"
                   @click="closeModal"
                 >
                   Hủy
@@ -162,7 +189,8 @@
         </div>
       </div>
     </div>
-    <!-- Modal xác nhận xóa tác giả -->
+
+    <!-- MODAL XÁC NHẬN XÓA -->
     <div class="modal" tabindex="-1" :class="{ 'd-block': showDeleteModal }">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -176,16 +204,15 @@
           </div>
           <div class="modal-body">
             <p>
-              Bạn có chắc chắn muốn xóa tác giả "<strong>{{
-                selectedAuthor?.tenTacGia
-              }}</strong
-              >" không?
+              Bạn có chắc chắn muốn xóa tác giả
+              <strong>"{{ selectedAuthor?.tenTacGia }}"</strong>
+              không?
             </p>
           </div>
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-outline-secondary"
               @click="closeDeteleModal"
             >
               Hủy
@@ -203,12 +230,14 @@
       </div>
     </div>
 
+    <!-- BACKDROP CHO CẢ HAI MODAL -->
     <div class="modal-backdrop fade show" v-if="showAddModal"></div>
+    <div class="modal-backdrop fade show" v-if="showDeleteModal"></div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { validateAuthorForm } from "@/utils/validation";
@@ -219,39 +248,47 @@ export default {
   components: { LoadingSpinner },
   setup() {
     const store = useStore();
+    const { proxy } = getCurrentInstance(); // để dùng proxy.$toast
+
     const showAddModal = ref(false);
     const editingAuthor = ref(null);
     const searchTerm = ref("");
     const showDeleteModal = ref(false);
     const selectedAuthor = ref(null);
+
     const AuthorForm = ref({
       maTacGia: "",
       tenTacGia: "",
       soDienThoai: "",
       diaChi: "",
     });
+
     const errors = ref({});
 
-    const authors = computed(() => store.getters["author/allAuthors"]);
+    const authorsAll = computed(() => store.getters["author/allAuthors"]);
     const loading = computed(() => store.getters["author/isLoading"]);
     const error = computed(() => store.getters["author/error"]);
 
-    const fetchAuthors = async () => {
-      await store.dispatch("author/fetchAuthors");
-    };
-    const filteredAuthors = computed(() => {
-      if (!searchTerm.value.trim()) return authors.value;
+    // Lọc theo search
+    const authors = computed(() => {
+      if (!searchTerm.value.trim()) return authorsAll.value;
       const search = searchTerm.value.toLowerCase().trim();
-      return authors.value.filter(
+      return authorsAll.value.filter(
         (author) =>
           author.tenTacGia.toLowerCase().includes(search) ||
           author.maTacGia.toLowerCase().includes(search)
       );
     });
+
+    const fetchAuthors = async () => {
+      await store.dispatch("author/fetchAuthors");
+    };
+
     const confirmDelete = (author) => {
       selectedAuthor.value = author;
       showDeleteModal.value = true;
     };
+
     const closeDeteleModal = () => {
       showDeleteModal.value = false;
       selectedAuthor.value = null;
@@ -262,11 +299,12 @@ export default {
         await store.dispatch("author/deleteAuthor", selectedAuthor.value._id);
         await fetchAuthors();
         closeDeteleModal();
-        Proxy.$toast.show("Xoá tác giả thành công", "success");
+        proxy.$toast?.show("Xóa tác giả thành công", "success");
       } catch (err) {
-        showError("Lỗi khi xóa tác giả: " + err.message);
+        showError("Lỗi khi xóa tác giả: " + (err.message || ""));
       }
     };
+
     const closeModal = () => {
       showAddModal.value = false;
       editingAuthor.value = null;
@@ -278,12 +316,14 @@ export default {
       };
       errors.value = {};
     };
+
     const allBooks = computed(() => store.getters["book/allBooks"]);
 
     const getAuthorBookCount = (authorId) => {
       return allBooks.value.filter((book) => book.maTacGia?._id === authorId)
         .length;
     };
+
     const fetchData = async () => {
       try {
         await Promise.all([
@@ -291,15 +331,22 @@ export default {
           store.dispatch("book/fetchBooks"),
         ]);
       } catch (err) {
-        showError("Lỗi khi tải dữ liệu: " + err.message);
+        showError("Lỗi khi tải dữ liệu: " + (err.message || ""));
       }
     };
 
     const editAuthor = (author) => {
       editingAuthor.value = author;
-      AuthorForm.value = { ...author };
+      AuthorForm.value = {
+        maTacGia: author.maTacGia || "",
+        tenTacGia: author.tenTacGia || "",
+        soDienThoai: author.soDienThoai || "",
+        diaChi: author.diaChi || "",
+      };
+      errors.value = {};
       showAddModal.value = true;
     };
+
     const handleSubmit = async () => {
       try {
         const { isValid, errors: validationErrors } = validateAuthorForm(
@@ -309,41 +356,40 @@ export default {
           errors.value = validationErrors;
           return;
         }
+
         if (editingAuthor.value) {
           await store.dispatch("author/updateAuthor", {
             id: editingAuthor.value._id,
             authorData: AuthorForm.value,
           });
-          Proxy.$toast.show("Cập nhật tác giả thành công", "success");
+          proxy.$toast?.show("Cập nhật tác giả thành công", "success");
         } else {
-          const response = await store.dispatch(
-            "author/createAuthor",
-            AuthorForm.value
-          );
-          console.log("Response from createAuthor:", response); // Log để kiểm tra
-          Proxy.$toast.show("Thêm tác giả thành công", "success");
+          await store.dispatch("author/createAuthor", AuthorForm.value);
+          proxy.$toast?.show("Thêm tác giả thành công", "success");
         }
+
         await fetchAuthors();
         closeModal();
       } catch (err) {
-        console.error("Error details:", err.response?.data || err.message); // Log lỗi chi tiết
-        showError("Lỗi khi lưu tác giả: " + err.message);
+        console.error("Error details:", err.response?.data || err.message);
+        showError("Lỗi khi lưu tác giả: " + (err.message || ""));
       }
     };
+
     const clearError = () => {
       store.commit("author/SET_ERROR", null);
     };
 
-    onMounted(fetchAuthors);
+    onMounted(fetchData);
 
     return {
       showAddModal,
       editingAuthor,
       AuthorForm,
       errors,
-      loading: computed(() => store.getters["author/isLoading"]),
-      error: computed(() => store.getters["author/error"]),
-      authors: filteredAuthors,
+      loading,
+      error,
+      authors,
       searchTerm,
       closeModal,
       editAuthor,
@@ -359,87 +405,44 @@ export default {
   },
 };
 </script>
+
 <style scoped>
-.modal {
-  background-color: rgba(0, 0, 0, 0.5);
+.author-management {
+  margin-top: 8px;
 }
 
-.modal-content {
-  border-radius: 8px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-}
-
-.input-group {
-  max-width: 400px;
-}
-
-.input-group-text {
-  background-color: #ffffff;
-  border-left: none;
-  border-radius: 0 6px 6px 0;
-  color: #4fc3f7;
-}
-
-.form-control {
-  border-right: none;
-  border-radius: 6px 0 0 6px;
-  font-size: 0.95rem;
-}
-
-.form-control:focus {
-  border-color: #4fc3f7;
-  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.1);
-  outline: none;
-}
-
-.form-control:focus + .input-group-text {
-  border-color: #4fc3f7;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+/* nút thao tác trong bảng */
+.action-btn {
   border: none;
-  font-weight: 500;
-  padding: 8px 16px;
-  transition: all 0.2s ease;
+  background: transparent;
+  padding: 4px 8px;
   border-radius: 6px;
+  cursor: pointer;
+  transition: 0.15s ease;
 }
 
-.btn-primary:hover {
-  background: #29b6f6;
+.action-btn.edit {
+  color: #0369a1;
+}
+.action-btn.edit:hover {
+  background: #e0f2fe;
 }
 
-.btn-sm {
-  border-radius: 4px;
+.action-btn.delete {
+  color: #b91c1c;
+}
+.action-btn.delete:hover {
+  background: #fee2e2;
 }
 
-/* Table style */
-.table {
-  font-size: 0.95rem;
-  border-collapse: collapse;
+/* modal overlay */
+.modal {
+  background-color: rgba(0, 0, 0, 0.35);
 }
 
-.table thead th {
-  background-color: #e1f5fe;
-  color: #0277bd;
-  font-weight: 600;
-  vertical-align: middle;
-}
-
-.table-striped > tbody > tr:nth-child(odd) {
-  background-color: #f8fbfc;
-}
-
-/* Label */
-.form-label {
-  font-weight: 500;
-  color: #37474f;
-}
-
-/* Alert & Modal titles */
-h2,
-.modal-title {
-  color: #37474f;
-  font-weight: 600;
+/* text phụ */
+.text-muted {
+  font-size: 0.85em;
+  font-style: italic;
 }
 </style>

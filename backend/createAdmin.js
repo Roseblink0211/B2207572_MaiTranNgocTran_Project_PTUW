@@ -10,12 +10,12 @@ const createAdmin = async () => {
       useUnifiedTopology: true,
     });
 
-    const adminExists = await NhanVien.findOne({ MSNV: "ADMIN001" });
+    const adminExists = await NhanVien.findOne({ MSNV: "admin" });
     if (!adminExists) {
-      const hashedPassword = await bcrypt.hash("admin123", 8);
+      const hashedPassword = await bcrypt.hash("abc123", 8);
       const admin = new NhanVien({
-        MSNV: "ADMIN01",
-        hoTenNV: "Admin",
+        MSNV: "admin",
+        hoTenNV: "Quan Tri Vien",
         password: hashedPassword,
         chucVu: "Admin",
         diaChi: "Admin Adress",

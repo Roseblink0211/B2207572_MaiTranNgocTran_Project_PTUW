@@ -73,8 +73,8 @@
         <div class="card h-100 book-card">
           <div class="card-img-container">
             <img
-              :src="`${API_URL}/${
-                book.imagePath || 'uploads/default-book.jpg'
+              :src="`${API_URL}${
+                book.imagePath || '/uploads/default-book.jpg'
               }`"
               class="card-img-top"
               alt="Book cover"
@@ -250,17 +250,20 @@ export default {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border-radius: 8px;
   overflow: hidden;
+  border: 1px solid #ffe082; /* vàng nhạt */
+  background-color: #fffdf5; /* nền sáng */
 }
 
 .book-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 14px rgba(255, 179, 0, 0.25);
 }
 
+/* Hình ảnh */
 .card-img-container {
   height: 200px;
   overflow: hidden;
-  background-color: #f8f9fa;
+  background-color: #fff8e1;
 }
 
 .card-img-top {
@@ -272,9 +275,10 @@ export default {
 }
 
 .book-card:hover .card-img-top {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
+/* Tiêu đề sách */
 .card-title {
   font-size: 1rem;
   font-weight: 600;
@@ -283,62 +287,78 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  color: #8d6e00; /* vàng đậm */
 }
 
+/* Nội dung */
 .card-text {
   line-height: 1.3;
+  color: #5d4037; /* nâu ấm */
 }
 
 .card-text strong {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.8rem;
 }
 
 .small {
   font-size: 0.85rem;
+  color: #6d4c41;
 }
 
+/* Footer card */
 .card-footer {
-  background-color: transparent;
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #fff8e1;
+  border-top: 1px solid #ffe082;
 }
 
+/* Input tìm kiếm */
 .input-group {
   max-width: 500px;
 }
 
 .input-group-text {
-  background-color: white;
+  background-color: #fff8e1;
   border-left: none;
-}
-
-.form-control:focus + .input-group-text {
-  border-color: #86b7fe;
+  color: #8d6e00;
+  border-radius: 0 6px 6px 0;
+  border: 1px solid #ffecb3;
+  border-left: 0;
 }
 
 .form-control {
   border-right: none;
-  border-radius: 6px;
-  border: 1px solid #cfd8dc;
+  border-radius: 6px 0 0 6px;
+  border: 1px solid #ffecb3;
   transition: border-color 0.2s ease;
   font-size: 0.95rem;
+  background-color: #ffffff;
 }
 
 .form-control:focus {
-  border-color: #4fc3f7;
-  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.1);
+  border-color: #ffb300;
+  box-shadow: 0 0 0 2px rgba(255, 179, 0, 0.2);
   outline: none;
 }
 
+.form-control:focus + .input-group-text {
+  border-color: #ffb300;
+}
+
+/* Trạng thái */
 .text-danger {
   font-weight: bold;
-  background-color: rgba(244, 67, 54, 0.1);
-  color: #d32f2f !important;
+  background-color: rgba(244, 67, 54, 0.08);
+  color: #c62828 !important;
+  border-radius: 4px;
+  padding: 2px 4px;
 }
 
 .text-warning {
-  background-color: rgba(255, 193, 7, 0.12);
+  background-color: rgba(255, 193, 7, 0.14);
   color: #f57c00 !important;
+  border-radius: 4px;
+  padding: 2px 4px;
 }
 
 .text-success {
@@ -352,24 +372,30 @@ export default {
 .status-text {
   font-size: 0.7rem;
   font-style: italic;
+  color: #8d6e00;
 }
 
+/* Button chính màu vàng tươi */
 .btn-primary {
-  background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
   border: none;
   font-weight: 500;
   transition: all 0.2s ease;
   border-radius: 6px;
   font-size: 0.9rem;
   padding: 8px 16px;
+  color: #5d4037;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #29b6f6 0%, #0288d1 100%);
+  background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
   transform: translateY(-1px);
+  color: #ffffff;
 }
 
 .btn-primary:disabled {
   opacity: 0.6;
+  background: #ffe082;
+  color: #8d6e00;
 }
 </style>

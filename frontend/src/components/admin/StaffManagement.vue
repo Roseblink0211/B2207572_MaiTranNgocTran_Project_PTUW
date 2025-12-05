@@ -382,24 +382,26 @@ export default {
   border-radius: 6px 0 0 6px;
   font-size: 0.95rem;
   border-right: none;
+  border-color: #ffe082;
 }
 
 .input-group-text {
-  background-color: white;
+  background-color: #fffbea; /* vàng nhạt */
   border-left: none;
-  color: #1976d2;
-  border: 1px solid #bbdefb;
+  color: #f9a825; /* vàng tươi đậm */
+  border: 1px solid #ffe082;
 }
 
 .input-group .btn {
   border-radius: 0 6px 6px 0;
-  color: #4fc3f7;
-  border-color: #4fc3f7;
+  color: #f9a825;
+  border-color: #ffca28;
+  background-color: #fff8e1;
 }
 
 .input-group .btn:hover {
-  background-color: #4fc3f7;
-  color: white;
+  background-color: #ffca28;
+  color: #5d4037;
 }
 
 /* Table */
@@ -407,53 +409,58 @@ export default {
   font-size: 0.95rem;
   border-collapse: collapse;
   margin-top: 1rem;
-  background-color: white;
-  border: 1px solid #bbdefb;
+  background-color: #ffffff;
+  border: 1px solid #ffecb3;
   border-radius: 6px;
   overflow: hidden;
 }
 
 .table thead th {
-  background-color: #e1f5fe;
-  color: #0277bd;
+  background-color: #fff3cd; /* vàng nhạt kiểu alert bootstrap */
+  color: #8d6e63;
   font-weight: 600;
   vertical-align: middle;
 }
 
 .table-striped > tbody > tr:nth-child(odd) {
-  background-color: #f8fbfc;
+  background-color: #fffdf3;
 }
 
-/* Nút thao tác */
+/* Nút thao tác chung */
 .btn-sm {
   border-radius: 4px;
 }
 
+/* Nút chính – vàng tươi */
 .btn-primary {
-  background-color: #1976d2;
-  border-color: #1976d2;
+  background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+  border: none;
+  color: #4e342e;
+  font-weight: 500;
 }
 
 .btn-primary:hover {
-  background-color: #1565c0;
-  border-color: #1565c0;
+  background: #ffb300;
+  color: #4e342e;
 }
 
+/* Nút info – vàng cam */
 .btn-info {
-  background-color: #4fc3f7;
-  border-color: #4fc3f7;
-  color: white;
+  background-color: #ffca28;
+  border-color: #ffca28;
+  color: #4e342e;
 }
 
 .btn-info:hover {
-  background-color: #29b6f6;
-  border-color: #29b6f6;
+  background-color: #ffb300;
+  border-color: #ffb300;
 }
 
+/* Nút xóa – đỏ nhưng dịu */
 .btn-danger {
   background-color: #ef5350;
   border-color: #ef5350;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-danger:hover {
@@ -465,34 +472,36 @@ export default {
 .modal-content {
   border-radius: 8px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border: 1px solid #ffe082;
 }
 
 .modal-title {
   font-weight: 600;
-  color: #0d47a1;
+  color: #ff8f00;
 }
 
 /* Label */
 .form-label {
-  color: #0d47a1;
+  color: #6d4c41;
   font-weight: 500;
 }
 
-/* Eye toggle */
+/* Eye toggle (nếu có dùng cho password) */
 .position-absolute.btn {
   background-color: transparent;
   border: none;
-  color: #1976d2;
+  color: #ffb300;
 }
 
 .position-absolute.btn:hover {
-  color: #0d47a1;
+  color: #ff8f00;
 }
 
 /* Alert lỗi */
 .alert {
   font-size: 0.95rem;
   border-left: 4px solid #f44336;
+  background-color: #ffebee;
 }
 
 /* Nút "X" của alert */
